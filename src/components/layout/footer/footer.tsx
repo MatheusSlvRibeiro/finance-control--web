@@ -8,7 +8,7 @@ export function Footer() {
 				<Logo />
 
 				<span className={styles.copy}>
-					&copy; 2026 Fiance Control. Todos os direitos reservados.
+					&copy; 2026 Finance Control. Todos os direitos reservados.
 				</span>
 			</div>
 		</footer>
