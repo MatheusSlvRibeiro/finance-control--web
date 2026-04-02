@@ -27,7 +27,7 @@ describe('accountService', () => {
 		})
 	})
 
-	describe.each(['checking', 'wallet', 'savings'] as const)('getByType: %s', (type) => {
+	describe.each(['checking', 'wallet', 'investments'] as const)('getByType: %s', (type) => {
 		it('deve retornar a conta do tipo correto com totais', async () => {
 			const contas = await accountService.getByType(type)
 

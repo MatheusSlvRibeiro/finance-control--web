@@ -15,7 +15,7 @@ export const userAccounts: Account[] = [
 	{
 		id: 'inter',
 		name: 'Inter',
-		type: 'savings',
+		type: 'investments',
 		openingBalance: 500,
 		incomes: 500,
 		incomingTransfer: 100,
