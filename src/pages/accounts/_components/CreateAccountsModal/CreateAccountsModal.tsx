@@ -6,17 +6,41 @@ import { CurrencyInput } from '@components/ui/inputs/currencyInput/CurrencyInput
 import styles from './CreateAccounts.module.scss'
 import { FormModal } from '@components/ui/modal/formModal/FormModal'
 import { ACCOUNT_TYPE_OPTIONS_ARRAY } from 'src/constants/accountTypes.constants'
+import { accountService } from '@services/accounts/accountService'
 
-export function CreateAccountsModal({ closeModal }: { closeModal: () => void }): ReactElement {
+type CreateAccountsModalProps = {
+	closeModal: () => void
+	onSuccess: () => Promise<void>
+}
+
+export function CreateAccountsModal({ closeModal, onSuccess }: CreateAccountsModalProps): ReactElement {
 	const [name, setName] = useState('')
 	const [openingBalanceInCents, setOpeningBalanceInCents] = useState(0)
 	const [accountType, setAccountType] = useState('')
 
-	const handleSave = () => {
-		toast('Conta criada com sucesso!', {
-			toastId: 'success-create-account',
-		})
-		closeModal()
+	const handleSave = async () => {
+		if (!name.trim()) {
+			toast('Nome da conta é obrigatório!', { toastId: 'error-name-account' })
+			return
+		}
+
+		if (!accountType) {
+			toast('Selecione o tipo de conta!', { toastId: 'error-type-account' })
+			return
+		}
+
+		try {
+			await accountService.create({
+				name: name.trim(),
+				opening_balance: openingBalanceInCents / 100,
+				account_type: accountType,
+			})
+			toast('Conta criada com sucesso!', { toastId: 'success-create-account' })
+			await onSuccess()
+			closeModal()
+		} catch {
+			toast('Erro ao criar conta. Tente novamente!', { toastId: 'error-create-account' })
+		}
 	}
 
 	return (

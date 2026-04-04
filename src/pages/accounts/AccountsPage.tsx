@@ -7,9 +7,11 @@ import AccountsCard from './_components/AccountsCard/AccountsCard'
 import { useState } from 'react'
 import { BaseModal } from '@components/ui/modal/baseModal/BaseModal'
 import { CreateAccountsModal } from './_components/CreateAccountsModal/CreateAccountsModal'
+import { useAccounts } from '@hooks/useAccounts'
 
 export default function AccountsPage() {
 	const [isModalOpen, setIsModalOpen] = useState(false)
+	const { reload } = useAccounts()
 
 	const closeModal = () => {
 		setIsModalOpen(false)
@@ -30,7 +32,7 @@ export default function AccountsPage() {
 				<AccountsCard />
 
 				<BaseModal isOpen={isModalOpen} onClose={closeModal}>
-					<CreateAccountsModal closeModal={closeModal} />
+					<CreateAccountsModal closeModal={closeModal} onSuccess={reload} />
 				</BaseModal>
 			</div>
 		</div>

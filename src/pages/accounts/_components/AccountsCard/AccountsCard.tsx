@@ -14,6 +14,7 @@ import { FormModal } from '@components/ui/modal/formModal/FormModal';
 import { TransactionForm } from '@pages/transactions/_components/TransactionsForm/TransactionsForm';
 import { toast } from 'react-toastify';
 import { transactionService } from '@services/transactions/transactionService';
+import { accountService } from '@services/accounts/accountService';
 import { useTransactions } from '@hooks/useTransactions';
 
 type ModalType = 'edit' | 'delete' | 'income' | 'expense' | null;
@@ -195,9 +196,14 @@ export default function AccountsCard() {
 				{modalType === 'edit' && selectedAccount && (
 					<EditAccountsModal
 						closeModal={closeModal}
+						uuid={selectedAccount.uuid}
 						accountName={selectedAccount.name}
 						openingBalance={selectedAccount.openingBalance}
 						type={selectedAccount.type}
+						onSuccess={async () => {
+							await reload()
+							await reloadTransactions()
+						}}
 					/>
 				)}
 
@@ -214,6 +220,12 @@ export default function AccountsCard() {
 						}
 						closeModal={closeModal}
 						deleteMessage="Conta excluída com sucesso!"
+						deleteAction={async () => {
+							await accountService.delete(selectedAccount.uuid)
+							await reload()
+							await reloadTransactions()
+							closeModal()
+						}}
 					/>
 				)}
 

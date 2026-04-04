@@ -109,6 +109,18 @@ class AccountService extends GenericService<Account> {
 		};
 	}
 
+	async create(payload: { name: string; opening_balance: number; account_type: string }): Promise<void> {
+		await api.post('/api/v1/accounts/', payload)
+	}
+
+	async update(uuid: string, payload: { name: string; opening_balance: number; account_type: string }): Promise<void> {
+		await api.put(`/api/v1/accounts/${uuid}/`, payload)
+	}
+
+	async delete(uuid: string): Promise<void> {
+		await api.delete(`/api/v1/accounts/${uuid}/`)
+	}
+
 	async getTotalsByAccount(account: Account): Promise<Record<NumericAccountField, number>> {
 		const transactionRaw = await transactionService.getAll();
 		const transaction = Array.isArray(transactionRaw) ? transactionRaw : [];
