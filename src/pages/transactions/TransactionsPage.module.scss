@@ -4,3 +4,40 @@
 	gap: 1.5rem;
 	justify-content: space-between;
 }
+
+.pagination {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: $space-lg;
+	padding: $space-md 0;
+}
+
+.pagination__btn {
+	padding: $space-xs $space-md;
+	border: 1px solid $border;
+	border-radius: $radius-sm;
+	background: transparent;
+	color: $foreground;
+	font-size: $font-sm;
+	cursor: pointer;
+	transition: background 0.15s;
+
+	&:hover:not(:disabled) {
+		background: $secondary;
+	}
+
+	&:disabled {
+		opacity: 0.4;
+		cursor: not-allowed;
+	}
+}
+
+.pagination__info {
+	font-size: $font-sm;
+	color: $foreground;
+}
+
+.pagination__count {
+	color: $muted-foreground;
+}

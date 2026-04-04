@@ -15,7 +15,7 @@ import { parseApiError } from '@utils/parseApiError/parseApiError';
 export default function TransactionsPage() {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
-	const { data, reload } = useTransactions();
+	const { data, reload, count, totalPages, page, setPage } = useTransactions();
 	const formId = useId();
 
 	const openModal = () => {
@@ -92,6 +92,31 @@ export default function TransactionsPage() {
 			</PageHeader>
 
 			<TransactionsTable data={data} />
+
+			{totalPages > 1 && (
+				<div className={styles.pagination}>
+					<button
+						className={styles.pagination__btn}
+						onClick={() => setPage((p) => p - 1)}
+						disabled={page <= 1}
+					>
+						← Anterior
+					</button>
+
+					<span className={styles.pagination__info}>
+						Página {page} de {totalPages}
+						<span className={styles.pagination__count}> ({count} resultados)</span>
+					</span>
+
+					<button
+						className={styles.pagination__btn}
+						onClick={() => setPage((p) => p + 1)}
+						disabled={page >= totalPages}
+					>
+						Próxima →
+					</button>
+				</div>
+			)}
 
 			<BaseModal isOpen={isModalOpen} onClose={closeModal}>
 				<FormModal
