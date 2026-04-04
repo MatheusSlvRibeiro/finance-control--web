@@ -1,5 +1,5 @@
 import { Banknote, Landmark, LayoutDashboardIcon, SquareChartGantt } from 'lucide-react'
-import styles from './Appsidebar.module.scss'
+import styles from './AppSidebar.module.scss'
 import { useNavigate } from 'react-router-dom'
 import { NavLink } from 'react-router-dom'
 

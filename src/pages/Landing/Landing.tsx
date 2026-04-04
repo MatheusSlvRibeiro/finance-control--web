@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { EmblaOptionsType } from 'embla-carousel'
 import { MoveRight } from 'lucide-react'
-import { Footer } from '@components/layout/footer/footer'
+import { Footer } from '@components/layout/footer'
 import Button from '@components/ui/button/button'
 import { BenefitsCard } from './_components/BenefitsCard/benefitsCard'
 import EmblaCarousel from './_components/EmblaCarousel/EmblaCarousel'
