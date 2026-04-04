@@ -7,6 +7,7 @@ import styles from './CreateAccounts.module.scss'
 import { FormModal } from '@components/ui/modal/formModal/FormModal'
 import { ACCOUNT_TYPE_OPTIONS_ARRAY } from 'src/constants/accountTypes.constants'
 import { accountService } from '@services/accounts/accountService'
+import { parseApiError } from '@utils/parseApiError/parseApiError'
 
 type CreateAccountsModalProps = {
 	closeModal: () => void
@@ -38,8 +39,8 @@ export function CreateAccountsModal({ closeModal, onSuccess }: CreateAccountsMod
 			toast('Conta criada com sucesso!', { toastId: 'success-create-account' })
 			await onSuccess()
 			closeModal()
-		} catch {
-			toast('Erro ao criar conta. Tente novamente!', { toastId: 'error-create-account' })
+		} catch (error) {
+			toast(parseApiError(error, 'Erro ao criar conta. Tente novamente!'), { toastId: 'error-create-account' })
 		}
 	}
 

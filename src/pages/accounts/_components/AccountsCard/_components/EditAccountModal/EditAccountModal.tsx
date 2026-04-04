@@ -8,6 +8,7 @@ import { FormModal } from '@components/ui/modal/formModal/FormModal'
 import { ACCOUNT_TYPE_OPTIONS_ARRAY } from 'src/constants/accountTypes.constants'
 import type { AccountType } from '@appTypes/account'
 import { accountService } from '@services/accounts/accountService'
+import { parseApiError } from '@utils/parseApiError/parseApiError'
 
 type EditAccountsModalProps = {
 	closeModal: () => void
@@ -56,8 +57,8 @@ export function EditAccountsModal({
 			toast('Conta atualizada com sucesso!', { toastId: 'success-edit' })
 			await onSuccess()
 			closeModal()
-		} catch {
-			toast('Erro ao atualizar conta. Tente novamente!', { toastId: 'error-edit-account' })
+		} catch (error) {
+			toast(parseApiError(error, 'Erro ao atualizar conta. Tente novamente!'), { toastId: 'error-edit-account' })
 		}
 	}
 

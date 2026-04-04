@@ -5,6 +5,7 @@ import { useState } from 'react';
 import Button from '@components/ui/button/button';
 import styles from './RegisterPage.module.scss';
 import { registerUser } from '@services/auth/authService';
+import { parseApiError } from '@utils/parseApiError/parseApiError';
 import { useAuth } from '@context/authContext';
 import { toast } from 'react-toastify';
 
@@ -19,6 +20,7 @@ export default function Register() {
 	const [showPassword, setShowPassword] = useState(false);
 	const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
+	const [apiError, setApiError] = useState<string | null>(null);
 	const [formData, setFormData] = useState({
 		name: '',
 		email: '',
@@ -45,6 +47,7 @@ export default function Register() {
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		setIsLoading(true);
+		setApiError(null);
 		try {
 			await registerUser(formData);
 			await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -63,8 +66,7 @@ export default function Register() {
 				});
 			}
 		} catch (error) {
-			console.error(error);
-			toast('Erro ao criar conta', { toastId: 'user-post-error' });
+			setApiError(parseApiError(error, 'Erro ao criar conta. Tente novamente!'));
 		} finally {
 			setIsLoading(false);
 		}
@@ -186,6 +188,8 @@ export default function Register() {
 								)}
 						</div>
 					</div>
+					{apiError && <p className={styles.password__error}>{apiError}</p>}
+
 					<Button
 						type="submit"
 						variant="register"

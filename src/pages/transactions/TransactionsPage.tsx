@@ -10,6 +10,7 @@ import { useId, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useTransactions } from '@hooks/useTransactions';
 import { transactionService } from '@services/transactions/transactionService';
+import { parseApiError } from '@utils/parseApiError/parseApiError';
 
 export default function TransactionsPage() {
 	const [isModalOpen, setIsModalOpen] = useState(false);
@@ -75,8 +76,7 @@ export default function TransactionsPage() {
 			await reload();
 			setIsModalOpen(false);
 		} catch (error) {
-			console.error('Erro ao criar transação:', error);
-			toast('Erro ao criar transação. Tente novamente!', {
+			toast(parseApiError(error, 'Erro ao criar transação. Tente novamente!'), {
 				toastId: 'transaction-error',
 			});
 		}
