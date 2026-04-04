@@ -1,192 +1,154 @@
-<h1>💰 Finance Control – Frontend Demo</h1>
+# Finance Control — Frontend
 
-<p>Interface de um sistema de controle financeiro pessoal, desenvolvida com React, Vite, TypeScript e SCSS, com foco em arquitetura frontend, boas práticas e experiência do usuário.</p>
-<p>Este repositório representa exclusivamente a camada de interface (frontend), utilizando dados mockados, e tem como objetivo demonstrar organização, estrutura e qualidade de código em aplicações frontend modernas.</p>
+Aplicação web de controle financeiro pessoal com autenticação JWT, dashboard interativo, gerenciamento de contas, transações e categorias.
 
-<p>🔎 A integração com backend real está disponível em um repositório separado.</p>
-</br>
-
-<h3>🚀 Demo online</h3>
-<p>🔗 Acesse a demo: https://fincontrol.devreloaded.com.br</p>
-
-<em>📌 Observação:</em>
-Esta versão não possui autenticação real nem persistência de dados. Todas as informações exibidas são simuladas.
+> Backend Django REST disponível em: [finance-control--api](https://github.com/MatheusSlvRibeiro/finance-control-backend)
+>
+> Demo: [https://fincontrol.devreloaded.com.br](https://fincontrol.devreloaded.com.br)
 
 ---
 
-## 🧠 Objetivo do projeto
+## Funcionalidades
 
-- Demonstrar domínio de React moderno com Vite e React Router
-- Aplicar boas práticas de arquitetura frontend (componentização, separação por domínio, organização de pastas)
-- Criar uma interface realista de dashboard financeiro
-- Servir como base visual para futura integração com backend
-- Atuar como projeto de portfólio, refletindo padrões próximos ao mercado
-
----
-
-## 🔁 Decisão técnica: migração (Next.js → React + Vite)
-
-<p>Durante o desenvolvimento inicial, o projeto utilizava Next.js, porém optamos por migrar para React + Vite pelos seguintes motivos:</p>
-
-- **Estabilidade e previsibilidade**: após uma **FALHA CRÍTICA envolvendo `react-server`**, priorizamos reduzir pontos únicos de falha e evitar acoplamento com um runtime server-first/SSR que não era essencial para o estado atual do projeto.
-- **Menos complexidade desnecessária**: o projeto é uma UI de dashboard (camada de interface), e neste momento não temos uma demanda forte por SSR/SSG que justifique o custo operacional/mental.
-- **SCSS mais produtivo**: no Next.js não foi possível utilizar `@use` de forma global como precisávamos, o que forçava repetição de imports/tokens em vários arquivos `.scss`. No Vite, configuramos injeção global de variáveis/tokens no pré-processador (evitando repetição e inconsistência).
-- **Ciclo de desenvolvimento mais rápido**: Vite melhora a experiência de DX (build/dev server), deixando o feedback loop mais curto.
-
-**Por que React?**
-
-- Mantém o projeto focado no que realmente importa no momento: UI, rotas e componentes
-
-- Menos abstrações e “mágica” de framework
-
-- Maior controle do comportamento no cliente
-
-- Ecossistema maduro, estável e amplamente adotado
+- Autenticação com JWT (login, cadastro, logout, proteção de rotas)
+- Dashboard com cards de saldo, receitas e despesas
+- Gráfico de evolução de despesas (linha) e despesas por categoria (pizza)
+- Gerenciamento de contas (criar, editar, excluir)
+- Gerenciamento de transações (criar, editar, excluir, filtrar)
+- Gerenciamento de categorias integrado com a API
+- Layout responsivo com sidebar e header adaptativos
+- Estados de loading (skeleton) e empty state em todas as listagens
 
 ---
 
-## 🛠️ Tecnologias utilizadas
+## Stack
 
-- React
-- Vite
-- TypeScript
-- React Router
-- SCSS
-- Recharts (Gráficos)
+| Camada | Tecnologia |
+|---|---|
+| Framework | React 19 + TypeScript |
+| Build | Vite 7 |
+| Roteamento | React Router DOM 7 |
+| HTTP | Axios (com interceptors JWT e logout automático em 401) |
+| Estilo | SCSS Modules + design tokens globais |
+| Gráficos | Recharts |
+| Ícones | Lucide React |
+| Testes | Vitest + Testing Library |
+| Deploy | Vercel |
 
 ---
 
-## 📂 Estrutura do projeto
+## Arquitetura
 
-```bash
-public/
+```
 src/
- ├─ components/
- │  ├─ layout/
- │  └─ ui/
- ├─ data/
- ├─ hooks/
- ├─ pages/
- │  ├─ Landing/
- │  ├─ auth/
- │  └─ app/
- ├─ routes/
- ├─ styles/
- ├─ utils/
- ├─ App.tsx
- └─ main.tsx
+├── components/
+│   ├── layout/          # AppLayout, AppHeader, AppSidebar, Footer
+│   └── ui/              # Button, Select, Dropdown, Modal, Input, SkeletonLoader
+├── constants/           # Mapeamentos estáticos (tipos de conta, etc.)
+├── context/             # AuthContext + AuthProvider
+├── hooks/               # useAccounts, useTransactions, useCategories, useUser...
+├── mocks/               # Dados de teste para Vitest
+├── pages/               # Landing, Login, Register, Dashboard, Accounts, Transactions, Categories
+├── routes/              # ProtectedRoute + AppRoutes
+├── services/
+│   ├── api.ts           # Instância Axios com interceptors
+│   ├── genericService.ts
+│   ├── accounts/
+│   ├── auth/
+│   ├── category/        # categoryService + categoryNormalizer
+│   ├── transactions/    # transactionService + transactionNormalizer
+│   └── user/
+├── styles/              # globals.scss, variables.scss (tokens injetados globalmente)
+├── types/               # Account, Category, Transaction, User
+└── utils/               # formatCurrency, formatDate
 ```
 
-### 📌 A estrutura foi pensada para escala, facilitar manutenção e permitir integração futura com backend.
+### Decisões de arquitetura
+
+**Separação por domínio em todos os níveis**
+Cada feature (accounts, transactions, categories) tem sua própria pasta em `pages/`, `services/`, `hooks/` e `types/`. Isso torna o código previsível e facilita encontrar o que precisa ser alterado.
+
+**GenericService\<T\> como base**
+A classe base encapsula a lógica de paginação do DRF (`PaginatedResponse<T>`). Serviços específicos herdam dela e adicionam apenas os métodos de domínio.
+
+**Normalização na camada de serviço**
+A API retorna `account_type`, `category_type`, `category_color` (enum string) e `opening_balance`. Essas transformações para o shape que os componentes esperam (`type`, `color` em hex, `openingBalance`) ficam nos normalizadores — os componentes nunca lidam com o shape raw da API.
+
+**Identificador `uuid` consistente**
+Todos os tipos (`Account`, `Category`, `Transaction`, `User`) usam `uuid` como campo de identificação, alinhado com o que a API retorna.
+
+**Logout automático em 401**
+O interceptor de resposta do Axios dispara o evento customizado `unauthorized`. O `AuthProvider` escuta esse evento e executa logout + redirect, sem precisar que cada componente trate esse caso individualmente.
+
+**Migração Next.js → React + Vite**
+O projeto usou Next.js inicialmente. A migração para Vite foi motivada por: falha crítica com `react-server`, ausência de necessidade real de SSR num dashboard autenticado, e impossibilidade de injetar variáveis SCSS globalmente no Next.js sem repetir imports em cada arquivo.
 
 ---
 
-## 🎨 Estilos
+## Rodando localmente
 
-- Utiliza SCSS Modules para estilos encapsulados por componente
-- Variáveis/tokens centralizados e disponíveis globalmente via `@use` (configurado no build)
-- Variáveis globais centralizadas para:
-    - Espaçamento
-    - Tipografia
-    - Font weight
-    - Border radius
+### Pré-requisitos
 
-- Separação clara entre:
-    - Estrutura (TSX)
-    - Estilo (SCSS)
+- Node.js 18+
+- pnpm (`npm install -g pnpm`)
+- Backend rodando localmente (ver instruções no repositório da API)
 
-## 📊 Funcionalidades da interface
-
-- Landing page de apresentação
-- Login e cadastro (interface)
-- Dashboard com:
-    - Cards de resumo (saldo, receitas, despesas)
-    - Gráfico de evolução de despesas
-    - Gráfico de despesas por categoria
-
-- Gerenciamento de:
-    - Contas
-    - Transações
-    - Categorias
-- Sidebar com navegação
-- Layout responsivo
-- Estados de loading e empty state
-
----
-
-## 🧪 Testes Automatizados
-
-O projeto utiliza **Vitest** para a criação e execução dos testes unitários.
-
-### Como rodar os testes
+### Instalação
 
 ```bash
-pnpm test
-```
-
-### Por que utilizamos o Vitest?
-
-- **Integração nativa com Vite**: O Vitest foi projetado para funcionar perfeitamente com projetos Vite, aproveitando o mesmo sistema de build e configuração, o que resulta em testes mais rápidos e configuração simplificada.
-- **Performance**: Execução extremamente rápida dos testes, com suporte a hot reload e watch mode.
-- **Sintaxe familiar**: A API do Vitest é inspirada no Jest, facilitando a migração e o entendimento para quem já conhece testes em JavaScript/TypeScript.
-- **Melhor experiência de DX**: Feedback instantâneo durante o desenvolvimento, alinhado ao propósito do projeto de priorizar produtividade e experiência do desenvolvedor.
-
-Os testes cobrem os principais serviços e utilitários do projeto, garantindo maior confiança nas funcionalidades implementadas.
-
----
-
-## 🔌 Backend
-
-### ➡️ O backend em Django REST está disponível em: (https://github.com/MatheusSlvRibeiro/finance-control-backend.git)
-
-### Como rodar o projeto localmente
-
-1. **Clone o repositório**
-
-```bash
-git clone https://github.com/MatheusSlvRibeiro/finance-control
-```
-
-2. **Entre na pasta**
-
-```bash
+# 1. Clone o repositório
+git clone https://github.com/MatheusSlvRibeiro/finance-control.git
 cd finance-control
-```
 
-3. **Instale as dependências**
-
-```bash
+# 2. Instale as dependências
 pnpm install
+
+# 3. Configure as variáveis de ambiente
+cp .env.example .env
+# Edite .env com a URL da sua API local
 ```
 
-4. **Rode o projeto**
+### Variáveis de ambiente
+
+```env
+# .env
+VITE_API_URL=http://localhost:8000/
+```
+
+### Rodando
 
 ```bash
 pnpm dev
 ```
 
-A aplicação estará disponível em: 📍 http://localhost:5173
+Acesse: [http://localhost:5173](http://localhost:5173)
+
+### Testes
+
+```bash
+pnpm test          # executa uma vez
+pnpm test:watch    # modo watch
+```
 
 ---
 
-## 📌 Considerações finais
+## Deploy
 
-Este projeto foi desenvolvido com foco em:
+O frontend está configurado para deploy na Vercel via `vercel.json`, com rewrites para suporte a SPA routing (todas as rotas redirecionam para `index.html`).
 
-- Clareza arquitetural
-- Organização e legibilidade de código
-- Boas práticas modernas de frontend
-- Aplicação realista voltada para portfólio
+```json
+{
+  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+}
+```
 
-Feedbacks e sugestões são bem-vindos.
+A variável `VITE_API_URL` deve ser configurada nas variáveis de ambiente do projeto na Vercel apontando para o backend em produção.
 
 ---
 
-👤 Autor
+## Autor
 
-Matheus Ribeiro
-Desenvolvedor Fullstack
+**Matheus Ribeiro** — Desenvolvedor Fullstack
 
-GitHub: [https://github.com/MatheusSlvRibeiro]
-
-LinkedIn: [https://www.linkedin.com/in/matheusslvribeiro/]
+- GitHub: [MatheusSlvRibeiro](https://github.com/MatheusSlvRibeiro)
+- LinkedIn: [matheusslvribeiro](https://www.linkedin.com/in/matheusslvribeiro/)
