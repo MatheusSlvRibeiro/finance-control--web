@@ -16,9 +16,9 @@ export function useCategoryLookup() {
 			const normalized = normalize(raw)
 
 			return (
-				categories.find((c) => c.id === raw) ??
+				categories.find((c) => c.uuid === raw) ??
 				categories.find((c) => c.name === raw) ??
-				categories.find((c) => normalize(c.id) === normalized) ??
+				categories.find((c) => normalize(c.uuid) === normalized) ??
 				categories.find((c) => normalize(c.name) === normalized)
 			)
 		},

@@ -3,7 +3,7 @@ import type { ReactNode } from 'react'
 export type CategoryType = 'expense' | 'income'
 
 export interface Category {
-	id: string
+	uuid: string
 	name: string
 	type: CategoryType
 	color: string

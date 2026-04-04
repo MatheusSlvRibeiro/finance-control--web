@@ -16,7 +16,7 @@ export function CategoriesList({ categories, onEdit, onDelete }: CategoriesListP
 	return (
 		<div className={styles.grid}>
 			{categories.map((category) => (
-				<div key={category.id} className={styles.card}>
+				<div key={category.uuid} className={styles.card}>
 					<div className={styles.cardLeft}>
 						<span
 							className={styles.colorDot}

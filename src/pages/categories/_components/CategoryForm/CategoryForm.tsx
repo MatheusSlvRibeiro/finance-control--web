@@ -45,7 +45,7 @@ export function createCategoryFormFromCategory(category: Category): CategoryForm
 		name: category.name,
 		type: category.type,
 		color: category.color,
-		iconId: category.id,
+		iconId: category.uuid,
 	}
 }
 

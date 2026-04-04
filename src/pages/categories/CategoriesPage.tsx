@@ -42,7 +42,7 @@ export default function CategoriesPage() {
 	const iconOptions = useMemo(
 		() =>
 			categories.map((c) => ({
-				value: c.id,
+				value: c.uuid,
 				label: c.name,
 				icon: c.icon,
 			})),

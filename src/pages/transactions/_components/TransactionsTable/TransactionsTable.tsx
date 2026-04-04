@@ -95,16 +95,16 @@ export function TransactionsTable({ data }: Props) {
 			const categoryBg = item.categoryColor ?? category?.color;
 			const categoryIcon = category?.icon ?? null;
 
-			type AccountField = string | { id?: string } | undefined | null;
+			type AccountField = string | { uuid?: string } | undefined | null;
 			const accountField: AccountField = item.account as AccountField;
 			let accountId: string | undefined;
 			if (typeof accountField === 'string') {
 				accountId = accountField;
-			} else if (accountField && typeof accountField === 'object' && 'id' in accountField) {
-				accountId = accountField.id;
+			} else if (accountField && typeof accountField === 'object' && 'uuid' in accountField) {
+				accountId = accountField.uuid;
 			}
 
-			const accountObj = (accounts ?? []).find((acc) => acc.id === accountId);
+			const accountObj = (accounts ?? []).find((acc) => acc.uuid === accountId);
 			const accountLabel = accountObj ? accountObj.name : 'Sem conta';
 
 			const valueNumber = typeof item.value === 'string' ? Number(item.value) : item.value;

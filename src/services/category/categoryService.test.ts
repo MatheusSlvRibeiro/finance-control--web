@@ -10,7 +10,7 @@ describe('categoryService', () => {
 			expect(allCategories.length).toBe(categories.length)
 
 			allCategories.forEach((cat) => {
-				expect(cat).toHaveProperty('id')
+				expect(cat).toHaveProperty('uuid')
 				expect(cat).toHaveProperty('name')
 				expect(cat).toHaveProperty('type')
 			})

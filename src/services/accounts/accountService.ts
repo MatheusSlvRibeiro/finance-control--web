@@ -10,7 +10,7 @@ const sumBy = (accounts: Account[], field: NumericAccountField) =>
 
 function getTransactionType(transaction: Transaction, categories: any[]) {
 	if (transaction.type) return transaction.type;
-	const category = categories.find((cat) => cat.id === transaction.category);
+	const category = categories.find((cat) => cat.uuid === transaction.category);
 	return category ? category.type : undefined;
 }
 
@@ -30,9 +30,8 @@ const sumTransactions = (
 
 function normalizeAccount(account: any): Account {
 	return {
-		id: account.uuid ?? account.id,
-		type: account.account_type ?? account.type,
 		...account,
+		type: account.account_type ?? account.type,
 		openingBalance: Number(account.opening_balance),
 	};
 }
@@ -42,8 +41,8 @@ const withDerivedTotals = (
 	transactions: Transaction[],
 	categories: any[],
 ): Account => {
-	const incomes = sumTransactions(transactions, categories, account.id, 'income');
-	const expenses = sumTransactions(transactions, categories, account.id, 'expense');
+	const incomes = sumTransactions(transactions, categories, account.uuid, 'income');
+	const expenses = sumTransactions(transactions, categories, account.uuid, 'expense');
 	const incomingTransfer = 0;
 	const outgoingTransfers = 0;
 	const balance =
@@ -62,7 +61,7 @@ const withDerivedTotals = (
 class AccountService extends GenericService<Account> {
 	getAccountNameById(accounts: Account[], uuid: string | undefined | null): string {
 		if (!uuid) return 'Sem conta';
-		const acc = accounts.find((a) => a.id === uuid);
+		const acc = accounts.find((a) => a.uuid === uuid);
 		return acc ? acc.name : 'Sem conta';
 	}
 	constructor() {

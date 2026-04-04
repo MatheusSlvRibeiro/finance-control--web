@@ -69,7 +69,7 @@ export function TransactionForm({ initialValues, onSubmit, formId }: Transaction
 			categories
 				.filter((c) => !type || c.type === type)
 				.map((c) => ({
-					value: c.id,
+					value: c.uuid,
 					label: c.name,
 					icon: c.icon,
 				})),
@@ -79,7 +79,7 @@ export function TransactionForm({ initialValues, onSubmit, formId }: Transaction
 	const accountOptions: SelectOption[] = useMemo(
 		() =>
 			accounts.map((a) => ({
-				value: a.id,
+				value: a.uuid,
 				label: a.name,
 			})),
 		[accounts],

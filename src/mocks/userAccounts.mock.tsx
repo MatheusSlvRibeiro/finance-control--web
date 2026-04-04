@@ -2,7 +2,7 @@ import { Account } from '@appTypes/account'
 
 export const userAccounts: Account[] = [
 	{
-		id: 'nubank',
+		uuid:'nubank',
 		name: 'Nubank',
 		type: 'checking',
 		openingBalance: 5000,
@@ -13,7 +13,7 @@ export const userAccounts: Account[] = [
 		balance: 5350,
 	},
 	{
-		id: 'inter',
+		uuid:'inter',
 		name: 'Inter',
 		type: 'investments',
 		openingBalance: 500,
@@ -24,7 +24,7 @@ export const userAccounts: Account[] = [
 		balance: 0,
 	},
 	{
-		id: 'carteira',
+		uuid:'carteira',
 		name: 'Carteira',
 		type: 'wallet',
 		openingBalance: 100,

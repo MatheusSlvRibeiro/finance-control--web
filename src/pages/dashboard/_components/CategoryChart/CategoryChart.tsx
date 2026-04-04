@@ -47,7 +47,7 @@ export function CategoryChart() {
 
 		categories.forEach((c) => {
 			categoryMetaByName.set(c.name.toLowerCase(), {
-				id: c.id,
+				id: c.uuid,
 				color: c.color,
 			})
 		})

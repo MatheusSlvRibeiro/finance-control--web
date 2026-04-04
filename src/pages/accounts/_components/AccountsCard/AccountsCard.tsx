@@ -228,7 +228,7 @@ export default function AccountsCard() {
 						<TransactionForm
 							formId={formId}
 							initialValues={{
-								account: selectedAccount.id,
+								account: selectedAccount.uuid,
 								type: modalType,
 							}}
 							onSubmit={handleTransactionSave}
