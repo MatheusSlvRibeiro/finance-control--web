@@ -59,13 +59,14 @@ const withDerivedTotals = (
 };
 
 class AccountService extends GenericService<Account> {
+	constructor() {
+		super('accounts');
+	}
+
 	getAccountNameById(accounts: Account[], uuid: string | undefined | null): string {
 		if (!uuid) return 'Sem conta';
 		const acc = accounts.find((a) => a.uuid === uuid);
 		return acc ? acc.name : 'Sem conta';
-	}
-	constructor() {
-		super('accounts');
 	}
 
 	async getUserAccounts(): Promise<Account[]> {
@@ -74,31 +75,32 @@ class AccountService extends GenericService<Account> {
 		return accounts.map(normalizeAccount);
 	}
 
-	async getUserAccountsWithTotals(): Promise<Account[]> {
-		const accounts = await this.getUserAccounts();
-		const transactionRaw = await transactionService.getAll();
-		const transaction = Array.isArray(transactionRaw) ? transactionRaw : [];
-		const categoriesRaw = await api.get('/api/v1/categories');
+	private async fetchDependencies(): Promise<{ transactions: Transaction[]; categories: any[] }> {
+		const [transactionRaw, categoriesRaw] = await Promise.all([
+			transactionService.getAll(),
+			api.get('/api/v1/categories'),
+		]);
+		const transactions = Array.isArray(transactionRaw.results) ? transactionRaw.results : [];
 		const categories = Array.isArray(categoriesRaw.data.results)
 			? categoriesRaw.data.results
 			: [];
+		return { transactions, categories };
+	}
 
-		return accounts.map((account) => withDerivedTotals(account, transaction, categories));
+	async getUserAccountsWithTotals(): Promise<Account[]> {
+		const [accounts, { transactions, categories }] = await Promise.all([
+			this.getUserAccounts(),
+			this.fetchDependencies(),
+		]);
+		return accounts.map((account) => withDerivedTotals(account, transactions, categories));
 	}
 
 	async getTotals(): Promise<Record<NumericAccountField, number>> {
-		const accounts = await this.getUserAccounts();
-		const transactionRaw = await transactionService.getAll();
-		const transaction = Array.isArray(transactionRaw) ? transactionRaw : [];
-		const categoriesRaw = await api.get('/api/v1/categories');
-		const categories = Array.isArray(categoriesRaw.data.results)
-			? categoriesRaw.data.results
-			: [];
-
-		const accountsWithTotals = accounts.map((a) =>
-			withDerivedTotals(a, transaction, categories),
-		);
-
+		const [accounts, { transactions, categories }] = await Promise.all([
+			this.getUserAccounts(),
+			this.fetchDependencies(),
+		]);
+		const accountsWithTotals = accounts.map((a) => withDerivedTotals(a, transactions, categories));
 		return {
 			openingBalance: sumBy(accountsWithTotals, 'openingBalance'),
 			incomes: sumBy(accountsWithTotals, 'incomes'),
@@ -109,28 +111,9 @@ class AccountService extends GenericService<Account> {
 		};
 	}
 
-	async create(payload: { name: string; opening_balance: number; account_type: string }): Promise<void> {
-		await api.post('/api/v1/accounts/', payload)
-	}
-
-	async update(uuid: string, payload: { name: string; opening_balance: number; account_type: string }): Promise<void> {
-		await api.put(`/api/v1/accounts/${uuid}/`, payload)
-	}
-
-	async delete(uuid: string): Promise<void> {
-		await api.delete(`/api/v1/accounts/${uuid}/`)
-	}
-
 	async getTotalsByAccount(account: Account): Promise<Record<NumericAccountField, number>> {
-		const transactionRaw = await transactionService.getAll();
-		const transaction = Array.isArray(transactionRaw) ? transactionRaw : [];
-		const categoriesRaw = await api.get('/api/v1/categories');
-		const categories = Array.isArray(categoriesRaw.data.results)
-			? categoriesRaw.data.results
-			: [];
-
-		const derived = withDerivedTotals(account, transaction, categories);
-
+		const { transactions, categories } = await this.fetchDependencies();
+		const derived = withDerivedTotals(account, transactions, categories);
 		return {
 			openingBalance: derived.openingBalance,
 			incomes: derived.incomes,
@@ -139,6 +122,18 @@ class AccountService extends GenericService<Account> {
 			expenses: derived.expenses,
 			balance: derived.balance,
 		};
+	}
+
+	async create(payload: { name: string; opening_balance: number; account_type: string }): Promise<void> {
+		await api.post('/api/v1/accounts/', payload);
+	}
+
+	async update(uuid: string, payload: { name: string; opening_balance: number; account_type: string }): Promise<void> {
+		await api.put(`/api/v1/accounts/${uuid}/`, payload);
+	}
+
+	async delete(uuid: string): Promise<void> {
+		await api.delete(`/api/v1/accounts/${uuid}/`);
 	}
 }
 
