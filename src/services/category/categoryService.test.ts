@@ -1,33 +1,81 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi, beforeEach } from 'vitest'
 import { categoryService } from './categoryService'
-import { categories } from '@mocks/categories.mock'
-import { CategoryType } from '@appTypes/category'
+import type { CategoryRaw } from './categoryNormalizer'
+
+const mockRawCategories: CategoryRaw[] = [
+	{ uuid: 'uuid-1', name: 'Trabalho',      category_type: 'income',  category_color: 'green',  category_icon: 'briefcase' },
+	{ uuid: 'uuid-2', name: 'Investimentos', category_type: 'income',  category_color: 'darkgreen', category_icon: 'trendingup' },
+	{ uuid: 'uuid-3', name: 'Moradia',       category_type: 'expense', category_color: 'blue',   category_icon: 'home' },
+	{ uuid: 'uuid-4', name: 'Alimentação',   category_type: 'expense', category_color: 'orange', category_icon: 'utensils' },
+]
+
+vi.mock('@services/api', () => ({
+	default: {
+		get: vi.fn(),
+	},
+}))
+
+import api from '@services/api'
+
+beforeEach(() => {
+	vi.clearAllMocks()
+	vi.mocked(api.get).mockResolvedValue({ data: { results: mockRawCategories } })
+})
 
 describe('categoryService', () => {
 	describe('getAll', () => {
-		it('deve retornar todas as categorias cadastradas', async () => {
-			const allCategories = await categoryService.getAll()
-			expect(allCategories.length).toBe(categories.length)
+		it('deve retornar categorias normalizadas da API', async () => {
+			const result = await categoryService.getAll()
 
-			allCategories.forEach((cat) => {
+			expect(result).toHaveLength(4)
+			result.forEach((cat) => {
 				expect(cat).toHaveProperty('uuid')
 				expect(cat).toHaveProperty('name')
 				expect(cat).toHaveProperty('type')
+				expect(cat).toHaveProperty('color')
+				expect(cat).toHaveProperty('icon')
 			})
+		})
+
+		it('deve normalizar category_type para type', async () => {
+			const result = await categoryService.getAll()
+			expect(result[0].type).toBe('income')
+			expect(result[2].type).toBe('expense')
+		})
+
+		it('deve normalizar category_color para hex', async () => {
+			const result = await categoryService.getAll()
+			expect(result[0].color).toBe('#4CAF50')
+			expect(result[1].color).toBe('#2E7D32')
+			expect(result[2].color).toBe('#1976D2')
+		})
+
+		it('deve retornar array vazio se results não for array', async () => {
+			vi.mocked(api.get).mockResolvedValue({ data: {} })
+			const result = await categoryService.getAll()
+			expect(result).toEqual([])
+		})
+
+		it('deve usar o valor raw de color se não estiver no mapa', async () => {
+			vi.mocked(api.get).mockResolvedValue({
+				data: { results: [{ ...mockRawCategories[0], category_color: '#custom' }] },
+			})
+			const result = await categoryService.getAll()
+			expect(result[0].color).toBe('#custom')
 		})
 	})
 
 	describe('getByType', () => {
-		const types: CategoryType[] = ['income', 'expense']
+		it('deve retornar apenas categorias do tipo income', async () => {
+			const result = await categoryService.getByType('income')
+			expect(result).toHaveLength(2)
+			expect(result.every((c) => c.type === 'income')).toBe(true)
+		})
 
-		types.forEach((type) => {
-			it(`deve retornar apenas categorias do tipo ${type}`, async () => {
-				const result = await categoryService.getByType(type)
-
-				expect(result.every((cat) => cat.type === type)).toBe(true)
-
-				expect(result.length).toBeGreaterThan(0)
-			})
+		it('deve retornar apenas categorias do tipo expense', async () => {
+			const result = await categoryService.getByType('expense')
+			expect(result).toHaveLength(2)
+			expect(result.every((c) => c.type === 'expense')).toBe(true)
 		})
 	})
 })
