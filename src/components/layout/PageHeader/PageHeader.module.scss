@@ -14,6 +14,12 @@
 		flex-direction: column;
 		gap: 0.4rem;
 
+		.pageHeader__greeting {
+			font-size: $font-sm;
+			font-weight: $font-regular;
+			color: $gray-muted;
+		}
+
 		.pageHeader__title {
 			font-size: $font-lg;
 			color: $dark;
