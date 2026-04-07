@@ -1,6 +1,5 @@
 import api from '@services/api';
-
-const API_URL = import.meta.env.VITE_API_URL;
+import { AxiosError } from 'axios';
 
 export type LoginResult = {
 	success: boolean;
@@ -10,14 +9,17 @@ export type LoginResult = {
 
 export async function login(email: string, password: string): Promise<LoginResult> {
 	try {
-		const response = await api.post(`${API_URL}api/token/`, { email, password });
+		const response = await api.post('/api/token/', { email, password });
 		const { access, refresh } = response.data;
 		localStorage.setItem('token', access);
 		localStorage.setItem('refreshToken', refresh);
 		return { success: true, accessToken: access };
-	} catch (error: any) {
-		console.log(error.response?.data);
-		return { success: false, message: error.response?.data?.detail || 'Erro ao fazer login' };
+	} catch (error) {
+		const message =
+			error instanceof AxiosError
+				? error.response?.data?.detail ?? 'Erro ao fazer login'
+				: 'Erro ao fazer login';
+		return { success: false, message };
 	}
 }
 
@@ -36,13 +38,10 @@ export async function registerUser(data: {
 	password_confirm: string;
 }) {
 	try {
-		const response = await api.post(`${API_URL}api/v1/users/`, data, {
-			headers: {
-				'Content-Type': 'application/json',
-			},
-		});
+		const response = await api.post('/api/v1/users/', data);
 		return response.data;
-	} catch (error: any) {
-		throw error.response?.data || error;
+	} catch (error) {
+		if (error instanceof AxiosError) throw error.response?.data ?? error;
+		throw error;
 	}
 }

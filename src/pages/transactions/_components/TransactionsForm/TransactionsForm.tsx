@@ -18,7 +18,7 @@ const transactionSchema = z.object({
 	valueInCents: z.number().min(1, 'Insira um valor maior que zero'),
 });
 
-type TransactionFormValues = z.infer<typeof transactionSchema>;
+export type TransactionFormValues = z.infer<typeof transactionSchema>;
 type FormErrors = Partial<Record<keyof TransactionFormValues, string>>;
 
 type TransactionFormProps = {
@@ -79,14 +79,12 @@ export function TransactionForm({ initialValues, onSubmit, formId }: Transaction
 	);
 
 	useEffect(() => {
-		const rawCategory = (initialValues as any)?.category ?? '';
-		const rawAccount = (initialValues as any)?.account ?? '';
 		setDescription(initialValues?.description ?? '');
 		setType((initialValues?.type as TransactionType) ?? '');
-		setCategory(rawCategory);
-		setAccount(rawAccount);
+		setCategory(initialValues?.category ?? '');
+		setAccount(initialValues?.account ?? '');
 		setDate(toDateInputValue(initialValues?.date));
-		setValueInCents(Math.round(Number((initialValues as any)?.value ?? 0) * 100));
+		setValueInCents(Math.round((initialValues?.value ?? 0) * 100));
 		setErrors({});
 	}, [initialValues]);
 

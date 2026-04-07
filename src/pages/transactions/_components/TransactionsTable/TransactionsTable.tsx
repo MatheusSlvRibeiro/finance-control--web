@@ -125,8 +125,7 @@ export function TransactionsTable({ data, onReload }: Props) {
 				valueNumber,
 				dateLabel,
 			};
-		} catch (err) {
-			console.error('Erro ao normalizar transação:', item, err);
+		} catch {
 			const valueNumber = typeof item.value === 'string' ? Number(item.value) : item.value;
 
 			return {

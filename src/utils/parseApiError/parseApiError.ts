@@ -11,7 +11,7 @@ export function parseApiError(error: unknown, fallback = 'Ocorreu um erro inespe
 	if (typeof error === 'string') return error
 
 	if (error && typeof error === 'object') {
-		const data = (error as any)?.response?.data ?? error
+		const data = (error as { response?: { data?: unknown } })?.response?.data ?? error
 
 		if (typeof data === 'string') return data
 

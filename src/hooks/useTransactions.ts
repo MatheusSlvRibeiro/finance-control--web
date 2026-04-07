@@ -14,48 +14,29 @@ export function useTransactions() {
 
 	const totalPages = Math.max(1, Math.ceil(count / PAGE_SIZE));
 
-	const fetchPage = useCallback(async (pageNumber: number) => {
+	const fetchPage = useCallback(async (pageNumber: number, signal?: AbortSignal) => {
 		setLoading(true);
 		setError(null);
 
 		try {
 			const list = await transactionService.getAll({ params: { page: pageNumber } });
+			if (signal?.aborted) return;
 			const transactions = Array.isArray(list.results) ? list.results : [];
 			setData(normalizeTransactions(transactions));
 			setCount(list.count ?? 0);
 		} catch (e) {
+			if (signal?.aborted) return;
 			setError(e instanceof Error ? e : new Error('Erro ao carregar transações'));
 		} finally {
-			setLoading(false);
+			if (!signal?.aborted) setLoading(false);
 		}
 	}, []);
 
 	useEffect(() => {
-		let alive = true;
-
-		(async () => {
-			setLoading(true);
-			setError(null);
-
-			try {
-				const list = await transactionService.getAll({ params: { page } });
-				const transactions = Array.isArray(list.results) ? list.results : [];
-				if (alive) {
-					setData(normalizeTransactions(transactions));
-					setCount(list.count ?? 0);
-				}
-			} catch (e) {
-				if (alive)
-					setError(e instanceof Error ? e : new Error('Erro ao carregar transações'));
-			} finally {
-				if (alive) setLoading(false);
-			}
-		})();
-
-		return () => {
-			alive = false;
-		};
-	}, [page]);
+		const controller = new AbortController();
+		fetchPage(page, controller.signal);
+		return () => controller.abort();
+	}, [page, fetchPage]);
 
 	const reload = useCallback(() => fetchPage(page), [fetchPage, page]);
 

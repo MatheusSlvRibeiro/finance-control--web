@@ -1,5 +1,5 @@
 import { PageHeader } from '@components/layout/PageHeader/PageHeader'
-import { StatsCard } from './_components/statsCard/statsCard'
+import { StatsCard } from './_components/statsCard/StatsCard'
 import { ExpenseChart } from './_components/ExpenseChart/ExpenseChart'
 import { CategoryChart } from './_components/CategoryChart/CategoryChart'
 import { LatestExpenses } from './_components/LatestExpenses/LatestExpenses'

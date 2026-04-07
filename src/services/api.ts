@@ -7,7 +7,7 @@ const api = axios.create({
 api.interceptors.request.use((config) => {
 	const isUserRegister =
 		config.method === 'post' &&
-		(config.url?.endsWith('/users/') || config.url?.endsWith('/users/'));
+		(config.url?.endsWith('/users/') || config.url?.endsWith('/token/'));
 	if (isUserRegister) {
 		delete config.headers.Authorization;
 		return config;

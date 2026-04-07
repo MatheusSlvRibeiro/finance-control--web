@@ -25,9 +25,4 @@ export default class GenericService<T> {
 		const { data } = await api.get<T>(this.url, params);
 		return data;
 	}
-
-	async getByid(params?: AxiosRequestConfig): Promise<T> {
-		const { data } = await api.get<T>(this.url, params);
-		return data;
-	}
 }

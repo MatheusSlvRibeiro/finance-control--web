@@ -108,8 +108,8 @@ export function CategoryChart() {
 								outerRadius={100}
 								paddingAngle={isEmpty ? 0 : 2}
 							>
-								{(isEmpty ? emptyData : chartData).map((entry, index) => (
-									<Cell key={`cell-${index}`} fill={entry.color} />
+								{(isEmpty ? emptyData : chartData).map((entry) => (
+									<Cell key={`cell-${entry.name}`} fill={entry.color} />
 								))}
 							</Pie>
 							{!isEmpty && <Tooltip formatter={(v) => formatCurrency(Number(v) || 0)} />}

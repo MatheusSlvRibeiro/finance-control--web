@@ -7,38 +7,27 @@ export function useAccounts() {
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<Error | null>(null);
 
-	const reload = useCallback(async () => {
+	const reload = useCallback(async (signal?: AbortSignal) => {
 		setLoading(true);
 		setError(null);
 
 		try {
 			const list = await accountService.getUserAccountsWithTotals();
+			if (signal?.aborted) return;
 			setData(Array.isArray(list) ? list : []);
 		} catch (e) {
+			if (signal?.aborted) return;
 			setError(e instanceof Error ? e : new Error('Erro ao carregar contas'));
 		} finally {
-			setLoading(false);
+			if (!signal?.aborted) setLoading(false);
 		}
 	}, []);
 
 	useEffect(() => {
-		let alive = true;
-		setLoading(true);
-		accountService
-			.getUserAccountsWithTotals()
-			.then((accounts) => {
-				if (alive) setData(Array.isArray(accounts) ? accounts : []);
-			})
-			.catch((e) => {
-				if (alive) setError(e);
-			})
-			.finally(() => {
-				if (alive) setLoading(false);
-			});
-		return () => {
-			alive = false;
-		};
-	}, []);
+		const controller = new AbortController();
+		reload(controller.signal);
+		return () => controller.abort();
+	}, [reload]);
 
 	return { data, loading, error, reload };
 }

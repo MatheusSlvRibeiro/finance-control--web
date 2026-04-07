@@ -1,6 +1,5 @@
 import { Banknote, Landmark, LayoutDashboardIcon, SquareChartGantt } from 'lucide-react'
 import styles from './AppSidebar.module.scss'
-import { useNavigate } from 'react-router-dom'
 import { NavLink } from 'react-router-dom'
 
 interface Sidebar {
@@ -9,9 +8,7 @@ interface Sidebar {
 }
 
 export default function AppSidebar({ open, onClose }: Sidebar) {
-	const navigate = useNavigate()
-
-	const navitems = [
+	const navItems = [
 		{
 			icon: <LayoutDashboardIcon />,
 			name: 'Dashboard',
@@ -34,37 +31,23 @@ export default function AppSidebar({ open, onClose }: Sidebar) {
 		},
 	]
 
-	const handleNavigate = async (path: string) => {
-		navigate(path)
-	}
-
 	return (
 		<nav className={open ? styles.sidebar__container : styles.sidebar__container_closed}>
 			<ul className={styles.sidebar__list}>
-				{navitems.map(({ name, path, icon: icon }) => {
-					return (
-						<li
-							key={name}
-							onClick={() => {
-								handleNavigate(path)
-								if (onClose) onClose()
-							}}
+				{navItems.map(({ name, path, icon }) => (
+					<li key={name}>
+						<NavLink
+							to={path}
+							className={({ isActive }) =>
+								isActive ? styles.sidebar__item_active : styles.sidebar__item
+							}
+							onClick={onClose}
 						>
-							<NavLink
-								to={path}
-								className={({ isActive }) =>
-									isActive ? styles.sidebar__item_active : styles.sidebar__item
-								}
-								onClick={() => {
-									if (onClose) onClose()
-								}}
-							>
-								<div className={styles.sidebar__item_icon}>{icon}</div>
-								<span className={styles.sidebar__item_name}>{name}</span>
-							</NavLink>
-						</li>
-					)
-				})}
+							<div className={styles.sidebar__item_icon}>{icon}</div>
+							<span className={styles.sidebar__item_name}>{name}</span>
+						</NavLink>
+					</li>
+				))}
 			</ul>
 		</nav>
 	)

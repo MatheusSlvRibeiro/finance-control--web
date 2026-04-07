@@ -13,7 +13,7 @@ export function useUser() {
 				setLoading(true);
 				const data = await userService.getMe();
 				setUser(data);
-			} catch (error: any) {
+			} catch {
 				setError('Erro ao buscar usuário');
 			} finally {
 				setLoading(false);

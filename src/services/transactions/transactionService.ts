@@ -18,9 +18,8 @@ class TransactionService extends GenericService<Transaction> {
 	}
 
 	async getTotalByType(type: CategoryType): Promise<number> {
-		const { data } = await api.get<Transaction[]>(this.url, { params: { type } });
-		const total = data.reduce((sum, t) => sum + t.value, 0);
-		return total;
+		const data = await this.getAll({ params: { type, page_size: 1000 } });
+		return data.results.reduce((sum, t) => sum + Number(t.value), 0);
 	}
 
 	async create(payload: TransactionPayload): Promise<Transaction> {

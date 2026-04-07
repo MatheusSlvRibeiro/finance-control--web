@@ -66,8 +66,6 @@ export default function AccountsCard() {
 		date: string;
 		valueInCents: number;
 	}) => {
-		console.log('Form submitted with values:', values);
-
 		if (!values.type) {
 			toast('Selecione um tipo de transação!', { toastId: 'type-error' });
 			return;
@@ -108,8 +106,7 @@ export default function AccountsCard() {
 			await reload();
 			await reloadTransactions();
 			closeModal();
-		} catch (error) {
-			console.error('Erro ao criar transação:', error);
+		} catch {
 			toast('Erro ao criar transação. Tente novamente!', {
 				toastId: 'transaction-error',
 			});

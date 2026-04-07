@@ -81,33 +81,19 @@ export function StatsCard() {
 
 	return (
 		<section className={styles.StatsCard}>
-			{balance === undefined &&
-			incomes === undefined &&
-			expenses === undefined &&
-			incomingTransfer === undefined ? (
-				<div className={styles.loading}>
-					<div className={styles.skeletonRow}></div>
-					<div className={styles.skeletonRow}></div>
-					<div className={styles.skeletonRow}></div>
-					<div className={styles.skeletonRow}></div>
-				</div>
-			) : (
-				<>
-					{!isTablet && <p className={styles.StatsCard__title}>Visão Geral</p>}
+			{!isTablet && <p className={styles.StatsCard__title}>Visão Geral</p>}
 
-					{stats.map((item) => (
-						<div key={item.label} className={classMap[item.label].card}>
-							<div className={classMap[item.label].icon}>{item.icon}</div>
-							<div className={styles.statsCard__type}>
-								<p className={styles.statsCard__label}>{item.label}</p>
-								<p className={styles.statsCard__amount}>
-									{formatCurrency(item.amount)}
-								</p>
-							</div>
-						</div>
-					))}
-				</>
-			)}
+			{stats.map((item) => (
+				<div key={item.label} className={classMap[item.label].card}>
+					<div className={classMap[item.label].icon}>{item.icon}</div>
+					<div className={styles.statsCard__type}>
+						<p className={styles.statsCard__label}>{item.label}</p>
+						<p className={styles.statsCard__amount}>
+							{formatCurrency(item.amount)}
+						</p>
+					</div>
+				</div>
+			))}
 		</section>
 	)
 }

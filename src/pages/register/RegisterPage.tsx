@@ -52,7 +52,6 @@ export default function Register() {
 			await registerUser(formData);
 			await new Promise((resolve) => setTimeout(resolve, 1000));
 			const loginResult = await login(formData.email, formData.password);
-			console.log(loginResult)
 			if (loginResult.success) {
 				toast('Conta criada com sucesso!', {
 					toastId: 'user-post-success',

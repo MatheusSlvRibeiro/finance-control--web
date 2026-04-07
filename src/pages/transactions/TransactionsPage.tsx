@@ -34,8 +34,6 @@ export default function TransactionsPage() {
 		date: string;
 		valueInCents: number;
 	}) => {
-		console.log('Form submitted with values:', values);
-
 		if (!values.type) {
 			toast('Selecione um tipo de transação!', { toastId: 'type-error' });
 			return;

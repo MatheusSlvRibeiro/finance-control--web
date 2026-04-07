@@ -7,41 +7,27 @@ export function useAccountsTotals() {
 	const [loading, setLoading] = useState(true)
 	const [error, setError] = useState<Error | null>()
 
-	const reload = useCallback(async () => {
+	const reload = useCallback(async (signal?: AbortSignal) => {
 		setLoading(true)
 		setError(null)
 
 		try {
 			const t = await accountService.getTotals()
+			if (signal?.aborted) return
 			setTotals(t)
 		} catch (e) {
+			if (signal?.aborted) return
 			setError(e instanceof Error ? e : new Error('Erro ao carregar totais'))
 		} finally {
-			setLoading(false)
+			if (!signal?.aborted) setLoading(false)
 		}
 	}, [])
 
 	useEffect(() => {
-		let alive = true
-
-		;(async () => {
-			setLoading(true)
-			setError(null)
-
-			try {
-				const t = await accountService.getTotals()
-				if (alive) setTotals(t)
-			} catch (e) {
-				if (alive) setError(e instanceof Error ? e : new Error('Erro ao carregar totais'))
-			} finally {
-				if (alive) setLoading(false)
-			}
-		})()
-
-		return () => {
-			alive = false
-		}
-	}, [])
+		const controller = new AbortController()
+		reload(controller.signal)
+		return () => controller.abort()
+	}, [reload])
 
 	const derived = useMemo(() => {
 		const t = totals ?? {

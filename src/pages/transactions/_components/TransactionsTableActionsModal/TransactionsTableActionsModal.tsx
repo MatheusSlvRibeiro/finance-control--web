@@ -1,7 +1,7 @@
 import { Transaction } from '@appTypes/transaction';
 import { BaseModal } from '@components/ui/modal/baseModal/BaseModal';
 import { FormModal } from '@components/ui/modal/formModal/FormModal';
-import { TransactionForm } from '../TransactionsForm/TransactionsForm';
+import { TransactionForm, TransactionFormValues } from '../TransactionsForm/TransactionsForm';
 import { DeleteModal } from '@components/ui/modal/deleteModal/DeleteModal';
 import { TransactionsTableModalType } from '../TransactionsTable/TransactionsTable';
 import { useId } from 'react';
@@ -30,7 +30,7 @@ export function TransactionsTableActionsModal({
 }: Props) {
 	const formId = useId();
 
-	const handleSubmit = async (values: any) => {
+	const handleSubmit = async (values: TransactionFormValues) => {
 		if (!selectedTransaction?.uuid) return;
 
 		await transactionService.update(selectedTransaction.uuid, {
@@ -51,8 +51,7 @@ export function TransactionsTableActionsModal({
 		try {
 			await transactionService.delete(selectedTransaction.uuid);
 			onDelete();
-		} catch (error) {
-			console.error('Erro ao deletar transação:', error);
+		} catch {
 			alert('Erro ao deletar transação. Tente novamente.');
 		}
 	};

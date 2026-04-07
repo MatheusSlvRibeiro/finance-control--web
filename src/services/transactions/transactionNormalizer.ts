@@ -8,6 +8,7 @@ type NormalizedTransaction = Transaction & {
 export function normalizeTransaction(transaction: Transaction): NormalizedTransaction {
 	return {
 		...transaction,
+		value: Number(transaction.value),
 		dateFormatted: transaction.date ? formatDate(transaction.date) : '',
 	};
 }
