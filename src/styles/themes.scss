@@ -1,0 +1,118 @@
+// =============================================================
+// SISTEMA DE TEMAS — Finance Control
+// =============================================================
+//
+// CONVENÇÃO DE USO:
+//   - Use sempre as CSS custom properties (var(--token)) nos
+//     módulos SCSS de componentes que precisam reagir ao tema.
+//   - As variáveis SCSS ($primary, $dark, etc.) em variables.scss
+//     são compile-time e não mudam com o tema — use-as apenas
+//     para valores que são iguais em ambos os modos (ex: $green).
+//
+// ADICIONANDO UM NOVO TOKEN:
+//   1. Defina o valor em :root (modo claro).
+//   2. Defina o override em [data-theme='dark'].
+//   3. Nomeie com a camada semântica: --bg-*, --text-*, --border-*,
+//      --color-* (para brand/semântico).
+//
+// APLICANDO EM COMPONENTES:
+//   .meu-componente {
+//     background-color: var(--bg-surface);
+//     color: var(--text-primary);
+//     border: 1px solid var(--border);
+//   }
+// =============================================================
+
+// -------------------------------------------------------------
+// MODO CLARO (padrão)
+// -------------------------------------------------------------
+:root {
+	// Backgrounds
+	--bg-base: #f8f9fa; // página, layout externo
+	--bg-surface: #ffffff; // cards, header, dropdowns, modais
+	--bg-surface-hover: #eff1f4; // hover sobre elementos de superfície
+	--bg-muted: #eceff2; // badges, chips, input background
+
+	// Text
+	--text-primary: #13171f;
+	--text-secondary: #2f3a4f;
+	--text-muted: #727b8c;
+
+	// Border
+	--border: #e5e7eb;
+
+	// Brand — primary (igual nos dois modos)
+	--color-primary: #0ab37a;
+	--color-primary-foreground: #ffffff;
+	--color-primary-subtle: rgba(10, 179, 122, 0.12);
+
+	// Brand — accent
+	--color-accent: #14b7a4;
+
+	// Semantic — destructive/expense
+	--color-destructive: #dc2828;
+	--color-destructive-foreground: #ffffff;
+	--color-destructive-subtle: rgba(220, 40, 40, 0.08);
+
+	// Semantic — success/income
+	--color-success: #16a149;
+	--color-success-subtle: rgba(22, 161, 73, 0.1);
+
+	// Semantic — warning/transfer
+	--color-warning: #f49e0a;
+	--color-warning-subtle: rgba(244, 158, 10, 0.1);
+
+	// Focus ring
+	--ring: #0fb67f;
+
+	// Shadow
+	--shadow-dropdown: 0 12px 30px rgba(0, 0, 0, 0.12);
+	--shadow-card: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+// -------------------------------------------------------------
+// MODO ESCURO
+// -------------------------------------------------------------
+[data-theme='dark'] {
+	// Backgrounds
+	--bg-base: #0d1117;
+	--bg-surface: #161b22;
+	--bg-surface-hover: #21262d;
+	--bg-muted: #1c2128;
+
+	// Text
+	--text-primary: #e6edf3;
+	--text-secondary: #adbac7;
+	--text-muted: #768390;
+
+	// Border
+	--border: #30363d;
+
+	// Brand — primary (mantém a identidade visual)
+	--color-primary: #0ab37a;
+	--color-primary-foreground: #ffffff;
+	--color-primary-subtle: rgba(10, 179, 122, 0.18);
+
+	// Brand — accent
+	--color-accent: #14b7a4;
+
+	// Semantic — destructive/expense
+	--color-destructive: #f85149;
+	--color-destructive-foreground: #ffffff;
+	--color-destructive-subtle: rgba(248, 81, 73, 0.12);
+
+	// Semantic — success/income
+	--color-success: #3fb950;
+	--color-success-subtle: rgba(63, 185, 80, 0.12);
+
+	// Semantic — warning/transfer
+	--color-warning: #d29922;
+	--color-warning-subtle: rgba(210, 153, 34, 0.12);
+
+	// Focus ring
+	--ring: #0fb67f;
+
+	// Shadow
+	--shadow-dropdown: 0 12px 30px rgba(0, 0, 0, 0.5);
+	--shadow-card: 0 2px 8px rgba(0, 0, 0, 0.3);
+}

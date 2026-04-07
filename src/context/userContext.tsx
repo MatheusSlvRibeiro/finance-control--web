@@ -6,6 +6,7 @@ type UserContextType = {
 	user: User | null
 	loading: boolean
 	error: string | null
+	refreshUser: () => void
 }
 
 const UserContext = createContext<UserContextType | null>(null)
@@ -34,7 +35,16 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
 		return () => controller.abort()
 	}, [fetchUser])
 
-	return <UserContext.Provider value={{ user, loading, error }}>{children}</UserContext.Provider>
+	const refreshUser = useCallback(() => {
+		const controller = new AbortController()
+		fetchUser(controller.signal)
+	}, [fetchUser])
+
+	return (
+		<UserContext.Provider value={{ user, loading, error, refreshUser }}>
+			{children}
+		</UserContext.Provider>
+	)
 }
 
 export function useUserContext(): UserContextType {

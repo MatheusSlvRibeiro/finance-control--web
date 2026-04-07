@@ -1,22 +1,30 @@
 import { useMediaQuery } from 'react-responsive';
 import { Logo } from '@components/layout/logo/logo';
-import { ExternalLinkIcon, Menu, User, X } from 'lucide-react';
+import { ExternalLinkIcon, Menu, Moon, Sun, User, X } from 'lucide-react';
 import styles from './AppHeader.module.scss';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@context/authContext';
 import { useState, useRef, useEffect } from 'react';
 import { useUser } from '@hooks/useUser';
+// import { useTheme } from '@context/themeContext';
 
 interface HeaderProps {
 	onMenuClick?: () => void;
 	sidebarOpen?: boolean;
 }
 
+const navItems = [
+	{ name: 'Perfil', path: '/perfil' },
+	{ name: 'Configurações', path: '/config' },
+	{ name: 'Sobre', path: '/about' },
+];
+
 export default function AppHeader({ onMenuClick, sidebarOpen }: HeaderProps) {
 	const isMobile = useMediaQuery({ maxWidth: 992 });
 	const navigate = useNavigate();
 	const { logout } = useAuth();
 	const { user } = useUser();
+	// const { theme, toggleTheme } = useTheme();
 
 	const [open, setOpen] = useState(false);
 	const [isLoggingOut, setIsLoggingOut] = useState(false);
@@ -24,6 +32,11 @@ export default function AppHeader({ onMenuClick, sidebarOpen }: HeaderProps) {
 	const logoutTimerRef = useRef<number | null>(null);
 
 	const handleToggleDropdown = () => setOpen((prev) => !prev);
+
+	const handleNavItem = (path: string) => {
+		setOpen(false);
+		navigate(path);
+	};
 
 	const handleLogout = async () => {
 		if (isLoggingOut) return;
@@ -68,7 +81,7 @@ export default function AppHeader({ onMenuClick, sidebarOpen }: HeaderProps) {
 					type="button"
 					className={styles.mobile__menu}
 					onClick={onMenuClick}
-					aria-label={sidebarOpen ? 'Close menu' : 'Open menu'}
+					aria-label={sidebarOpen ? 'Fechar menu' : 'Abrir menu'}
 				>
 					{sidebarOpen ? <X /> : <Menu />}
 				</button>
@@ -76,46 +89,71 @@ export default function AppHeader({ onMenuClick, sidebarOpen }: HeaderProps) {
 
 			<Logo />
 
-			<div className={styles.user__wrapper} ref={dropdownRef}>
-				<button
+			<div className={styles.header__actions}>
+				{/* <button
 					type="button"
-					className={styles.user__content}
-					onClick={handleToggleDropdown}
-					aria-haspopup="menu"
-					aria-expanded={open}
-					aria-label="User menu"
-					disabled={isLoggingOut}
+					className={styles.theme__toggle}
+					onClick={toggleTheme}
+					aria-label={theme === 'light' ? 'Ativar modo escuro' : 'Ativar modo claro'}
 				>
-					<div className={styles.user__info}>
-						<p className={styles.user__name}>{user?.name}</p>
-						<span className={styles.user__email}>{user?.email}</span>
-					</div>
+					{theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
+				</button> */}
 
-					<div className={styles.user__avatar}>
-						<User />
-					</div>
-				</button>
-				{open && (
-					<ul className={styles.dropdown} role="menu">
-						<li className={styles.dropdown__header} role="none">
-							<p className={styles.name}>{user?.name}</p>
-							<span className={styles.email}>{user?.email}</span>
-						</li>
+				<div className={styles.user__wrapper} ref={dropdownRef}>
+					<button
+						type="button"
+						className={styles.user__content}
+						onClick={handleToggleDropdown}
+						aria-haspopup="menu"
+						aria-expanded={open}
+						aria-label="Menu do usuário"
+						disabled={isLoggingOut}
+					>
+						{!isMobile && (
+							<p className={styles.user__name}>{user?.name}</p>
+						)}
 
-						<li role="none">
-							<button
-								type="button"
-								className={styles.logout}
-								role="menuitem"
-								onClick={handleLogout}
-								disabled={isLoggingOut}
-							>
-								<ExternalLinkIcon />
-								{isLoggingOut ? 'Saindo...' : 'Sair'}
-							</button>
-						</li>
-					</ul>
-				)}
+						<div className={styles.user__avatar}>
+							<User size={18} />
+						</div>
+					</button>
+
+					{open && (
+						<ul className={styles.dropdown} role="menu">
+							<li className={styles.dropdown__header} role="none">
+								<p className={styles.dropdown__name}>{user?.email}</p>
+							</li>
+
+							{navItems.map((item) => (
+								<li key={item.path} role="none">
+									<button
+										type="button"
+										className={styles.dropdown__item}
+										role="menuitem"
+										onClick={() => handleNavItem(item.path)}
+									>
+										{item.name}
+									</button>
+								</li>
+							))}
+
+							<li className={styles.dropdown__divider} role="none" />
+
+							<li role="none">
+								<button
+									type="button"
+									className={styles.logout}
+									role="menuitem"
+									onClick={handleLogout}
+									disabled={isLoggingOut}
+								>
+									<ExternalLinkIcon size={16} />
+									{isLoggingOut ? 'Saindo...' : 'Sair'}
+								</button>
+							</li>
+						</ul>
+					)}
+				</div>
 			</div>
 		</header>
 	);

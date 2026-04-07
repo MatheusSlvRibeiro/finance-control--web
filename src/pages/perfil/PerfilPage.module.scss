@@ -1,0 +1,252 @@
+.perfil {
+	display: flex;
+	flex-direction: column;
+	gap: $space-lg;
+}
+
+// ── Bloco genérico ────────────────────────────────────────────
+.block {
+	background-color: var(--bg-surface);
+	border: 1px solid var(--border);
+	border-radius: $radius-lg;
+	padding: $space-lg;
+	display: flex;
+	flex-direction: column;
+	gap: $space-lg;
+
+	@media (min-width: $breakpoint-lg) {
+		max-width: 640px;
+	}
+
+	&__header {
+		display: flex;
+		flex-direction: column;
+		gap: $space-xxs;
+		padding-bottom: $space-md;
+		border-bottom: 1px solid var(--border);
+	}
+
+	&__title {
+		font-size: $font-md;
+		font-weight: $font-semibold;
+		color: var(--text-primary);
+	}
+
+	&__subtitle {
+		font-size: $font-sm;
+		color: var(--text-muted);
+	}
+
+	&__form {
+		display: flex;
+		flex-direction: column;
+		gap: $space-lg;
+	}
+
+	&__footer {
+		display: flex;
+		justify-content: flex-end;
+		padding-top: $space-sm;
+		border-top: 1px solid var(--border);
+	}
+}
+
+// ── Avatar ────────────────────────────────────────────────────
+.avatar__row {
+	display: flex;
+	align-items: center;
+	gap: $space-md;
+}
+
+.avatar__button {
+	position: relative;
+	width: 72px;
+	height: 72px;
+	border-radius: 50%;
+	border: 2px solid var(--border);
+	background-color: var(--color-primary-subtle);
+	cursor: pointer;
+	overflow: hidden;
+	flex-shrink: 0;
+	padding: 0;
+
+	&:focus-visible {
+		outline: 2px solid var(--ring);
+		outline-offset: 2px;
+	}
+
+	&:hover .avatar__overlay {
+		opacity: 1;
+	}
+}
+
+.avatar__image {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.avatar__initials {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100%;
+	font-size: $font-2xl;
+	font-weight: $font-bold;
+	color: var(--color-primary);
+}
+
+.avatar__overlay {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: rgba(0, 0, 0, 0.45);
+	color: #fff;
+	opacity: 0;
+	transition: opacity 150ms ease;
+	border-radius: 50%;
+}
+
+.avatar__input {
+	display: none;
+}
+
+.avatar__hint {
+	font-size: $font-sm;
+	font-weight: $font-medium;
+	color: var(--text-primary);
+}
+
+.avatar__hint_sub {
+	font-size: $font-xs;
+	color: var(--text-muted);
+	margin-top: $space-xxs;
+}
+
+// ── Campos de formulário ──────────────────────────────────────
+.fields {
+	display: flex;
+	flex-direction: column;
+	gap: $space-md;
+}
+
+.field {
+	display: flex;
+	flex-direction: column;
+	gap: $space-xxs + 2px;
+
+	label {
+		font-size: $font-sm;
+		font-weight: $font-medium;
+		color: var(--text-primary);
+	}
+
+	input {
+		background-color: var(--bg-base);
+		border: 1px solid var(--border);
+		border-radius: $radius-md;
+		padding: $space-sm $space-md;
+		font-size: $font-sm;
+		color: var(--text-primary);
+		width: 100%;
+		transition: border-color 120ms ease, box-shadow 120ms ease;
+
+		&::placeholder {
+			color: var(--text-muted);
+		}
+
+		&:focus {
+			outline: none;
+			border-color: var(--ring);
+			box-shadow: 0 0 0 3px var(--color-primary-subtle);
+		}
+	}
+
+	&__error {
+		font-size: $font-xs;
+		color: var(--color-destructive);
+	}
+}
+
+// ── Input com botão olho ──────────────────────────────────────
+.input__wrapper {
+	position: relative;
+
+	input {
+		padding-right: 42px;
+	}
+}
+
+.eye__button {
+	position: absolute;
+	right: $space-sm;
+	top: 50%;
+	transform: translateY(-50%);
+	display: flex;
+	background: transparent;
+	border: none;
+	cursor: pointer;
+	color: var(--text-muted);
+	padding: $space-xxs;
+
+	&:hover {
+		color: var(--text-primary);
+	}
+}
+
+// ── Requisitos de senha ───────────────────────────────────────
+.password__requirements {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: $space-xxs;
+	margin-top: $space-xxs;
+}
+
+.req__muted,
+.req__passed {
+	font-size: $font-xs;
+	padding: $space-xxs $space-xs;
+	border-radius: $radius-lg;
+	font-weight: $font-medium;
+}
+
+.req__muted {
+	background-color: var(--bg-muted);
+	color: var(--text-muted);
+}
+
+.req__passed {
+	color: var(--color-success);
+	background-color: var(--color-success-subtle);
+}
+
+// ── Botão primário ────────────────────────────────────────────
+.btn__primary {
+	background-color: var(--color-primary);
+	color: var(--color-primary-foreground);
+	border: none;
+	border-radius: $radius-md;
+	padding: $space-xs $space-lg;
+	font-size: $font-sm;
+	font-weight: $font-semibold;
+	cursor: pointer;
+	transition: opacity 150ms ease, transform 150ms ease;
+
+	&:hover:not(:disabled) {
+		opacity: 0.9;
+		transform: scale(1.01);
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--ring);
+		outline-offset: 2px;
+	}
+
+	&:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+	}
+}
