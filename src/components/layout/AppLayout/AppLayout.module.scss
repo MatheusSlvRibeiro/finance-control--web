@@ -6,7 +6,7 @@
 	padding: $space-lg;
 	padding-top: calc(70px + $space-lg);
 
-	@media (min-width: $breakpoint-lg) {
+	@media (min-width: $breakpoint-xl) {
 		margin-left: 230px;
 		max-width: 1800px;
 	}

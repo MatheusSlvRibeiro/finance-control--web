@@ -55,7 +55,7 @@
 .sidebar__container_closed {
 	transform: translateX(-100%);
 
-	@media (min-width: $breakpoint-lg) {
+	@media (min-width: $breakpoint-xl) {
 		transform: translateX(0);
 	}
 }

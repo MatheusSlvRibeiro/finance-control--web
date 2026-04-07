@@ -123,7 +123,7 @@ export function ExpenseChart() {
 	}
 
 	return (
-		<div className={styles.monthExpense}>
+		<div className={styles.monthExpense} >
 			<h3 className={styles.monthExpense__title}>Evolução Financeira</h3>
 			<div style={{ width: '100%', height: charHeight }}>
 				<ResponsiveContainer width="100%" height="100%">
@@ -134,7 +134,7 @@ export function ExpenseChart() {
 						<CartesianGrid
 							strokeDasharray="3 3"
 							stroke="var(--color-border, #2e2e3e)"
-							vertical={false} // remove linhas verticais — mais limpo
+							vertical={false} 
 						/>
 
 						<XAxis
@@ -149,7 +149,7 @@ export function ExpenseChart() {
 							tick={{ fontSize: isMobile ? 10 : 12, fill: '#888' }}
 							axisLine={false}
 							tickLine={false}
-							width={isMobile ? 72 : 88} // evita corte do valor no eixo Y
+							width={isMobile ? 72 : 88} 
 						/>
 
 						<Tooltip
