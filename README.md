@@ -81,7 +81,7 @@ Todos os tipos (`Account`, `Category`, `Transaction`, `User`) usam `uuid` como c
 O interceptor de resposta do Axios dispara o evento customizado `unauthorized`. O `AuthProvider` escuta esse evento e executa logout + redirect, sem precisar que cada componente trate esse caso individualmente.
 
 **Migração Next.js → React + Vite**
-O projeto usou Next.js inicialmente. A migração para Vite foi motivada por: falha crítica com `react-server`, ausência de necessidade real de SSR num dashboard autenticado, e impossibilidade de injetar variáveis SCSS globalmente no Next.js sem repetir imports em cada arquivo.
+O projeto usou Next.js inicialmente. A migração para Vite foi motivada por: falha crítica com `react-server`, ausência de necessidade real de SSR num dashboard autenticado.
 
 ---
 
