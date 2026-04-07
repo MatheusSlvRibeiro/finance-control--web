@@ -1,11 +1,12 @@
 import { formatCurrency } from '@utils/formatCurrency/formatCurrency'
 import { Pie, ResponsiveContainer, PieChart, Tooltip, Cell } from 'recharts'
 import styles from './CategoryChart.module.scss'
-import { useMemo } from 'react'
-
-import { useCategories } from '@hooks/useCategories'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import Button from '@components/ui/button/button'
-import { useTransactions } from '@hooks/useTransactions'
+import { categoryService } from '@services/category/categoryService'
+import { transactionService } from '@services/transactions/transactionService'
+import type { Category } from '@appTypes/category'
+import type { Transaction } from '@appTypes/transaction'
 
 type ChartItem = {
 	id: string
@@ -15,82 +16,81 @@ type ChartItem = {
 }
 
 export function CategoryChart() {
-	const {
-		getTransactionByType,
-		loading: txLoading,
-		error: txError,
-		reload: reloadTx,
-	} = useTransactions()
+	const [transactions, setTransactions] = useState<Transaction[]>([])
+	const [categories, setCategories] = useState<Category[]>([])
+	const [loading, setLoading] = useState(true)
+	const [error, setError] = useState<Error | null>(null)
 
-	const {
-		data: categories,
-		loading: catLoading,
-		error: catError,
-		reload: reloadCat,
-	} = useCategories()
+	const fetchAll = useCallback(async () => {
+		setLoading(true)
+		setError(null)
+		try {
+			const [txData, cats] = await Promise.all([
+				transactionService.getAll({ params: { page_size: 1000 } }),
+				categoryService.getAll(),
+			])
+			setTransactions(Array.isArray(txData.results) ? txData.results : [])
+			setCategories(cats)
+		} catch (e) {
+			setError(e instanceof Error ? e : new Error('Erro ao carregar dados'))
+		} finally {
+			setLoading(false)
+		}
+	}, [])
 
-	const loading = txLoading || catLoading
-	const error = txError ?? catError
+	useEffect(() => {
+		fetchAll()
+	}, [fetchAll])
 
 	const chartData: ChartItem[] = useMemo(() => {
-		const expenses = getTransactionByType('expense')
-		const totalsByCategoryName = new Map<string, number>()
-
-		expenses.forEach((t) => {
-			const key = (t.category ?? 'Sem categoria').trim() || 'Sem categoria'
-			const current = totalsByCategoryName.get(key) ?? 0
-			const value = Number.isFinite(t.value) ? t.value : 0
-			totalsByCategoryName.set(key, current + value)
-		})
-
-		const categoryMetaByName = new Map<string, { id: string; color: string }>()
-
+		const categoryByUuid = new Map<string, { name: string; color: string; type: string }>()
 		categories.forEach((c) => {
-			categoryMetaByName.set(c.name.toLowerCase(), {
-				id: c.uuid,
-				color: c.color,
-			})
+			categoryByUuid.set(c.uuid, { name: c.name, color: c.color, type: c.type })
 		})
 
-		const result: ChartItem[] = Array.from(totalsByCategoryName.entries()).map(
-			([name, total]) => {
-				const meta = categoryMetaByName.get(name.toLowerCase())
-				const fallbackColor =
-					expenses.find((t) => t.category === name)?.categoryColor ?? '#94a3b8'
+		const expenses = transactions.filter((t) => {
+			const type = t.type ?? categoryByUuid.get(String(t.category))?.type
+			return type === 'expense'
+		})
 
+		const totalsByUuid = new Map<string, number>()
+		expenses.forEach((t) => {
+			const key = String(t.category ?? 'unknown')
+			const value = Number(t.value)
+			totalsByUuid.set(key, (totalsByUuid.get(key) ?? 0) + (Number.isFinite(value) ? value : 0))
+		})
+
+		return Array.from(totalsByUuid.entries())
+			.map(([uuid, total]) => {
+				const meta = categoryByUuid.get(uuid)
 				return {
-					id: meta?.id ?? name,
-					name,
+					id: uuid,
+					name: meta?.name ?? 'Sem categoria',
 					value: total,
-					color: meta?.color ?? fallbackColor,
+					color: meta?.color ?? '#94a3b8',
 				}
-			},
-		)
-
-		return result.filter((x) => x.value > 0).sort((a, b) => b.value - a.value)
-	}, [categories, getTransactionByType])
+			})
+			.filter((x) => x.value > 0)
+			.sort((a, b) => b.value - a.value)
+	}, [transactions, categories])
 
 	if (loading) {
-		return <div className={styles.container}>Carregando gráfico...</div>
+		return <div className={styles.categoryChart}>Carregando gráfico...</div>
 	}
 
 	if (error) {
 		return (
-			<div className={styles.container}>
+			<div className={styles.categoryChart}>
 				<p>Falha ao carregar: {error.message}</p>
-				<Button
-					variant="default"
-					size="md"
-					onClick={() => {
-						reloadTx?.()
-						reloadCat?.()
-					}}
-				>
+				<Button variant="default" size="md" onClick={fetchAll}>
 					Tentar novamente
 				</Button>
 			</div>
 		)
 	}
+
+	const emptyData = [{ name: '', value: 1, color: '#e2e8f0' }]
+	const isEmpty = chartData.length === 0
 
 	return (
 		<div className={styles.categoryChart}>
@@ -101,38 +101,40 @@ export function CategoryChart() {
 						<PieChart>
 							<Pie
 								dataKey="value"
-								data={chartData}
+								data={isEmpty ? emptyData : chartData}
 								cx="50%"
 								cy="50%"
 								innerRadius={60}
 								outerRadius={100}
-								paddingAngle={2}
+								paddingAngle={isEmpty ? 0 : 2}
 							>
-								{chartData.map((entry, index) => (
+								{(isEmpty ? emptyData : chartData).map((entry, index) => (
 									<Cell key={`cell-${index}`} fill={entry.color} />
 								))}
 							</Pie>
-							<Tooltip formatter={(v) => formatCurrency(Number(v) || 0)} />
+							{!isEmpty && <Tooltip formatter={(v) => formatCurrency(Number(v) || 0)} />}
 						</PieChart>
 					</ResponsiveContainer>
 				</div>
 				<div>
-					{chartData.map((item) => (
-						<div key={item.name} className={styles.pieChart__infoList}>
-							<div className={styles.pieChart__category}>
-								<div
-									className={styles.pieChart__dot}
-									style={{
-										backgroundColor: item.color,
-									}}
-								></div>
-								<span className={styles.pieChart__infoType}>{item.name}</span>
+					{isEmpty ? (
+						<p className={styles.empty}>Nenhuma despesa encontrada</p>
+					) : (
+						chartData.map((item) => (
+							<div key={item.id} className={styles.pieChart__infoList}>
+								<div className={styles.pieChart__category}>
+									<div
+										className={styles.pieChart__dot}
+										style={{ backgroundColor: item.color }}
+									/>
+									<span className={styles.pieChart__infoType}>{item.name}</span>
+								</div>
+								<span className={styles.pieChart__infoValue}>
+									{formatCurrency(item.value)}
+								</span>
 							</div>
-							<span className={styles.pieChart__infoValue}>
-								{formatCurrency(item.value)}
-							</span>
-						</div>
-					))}
+						))
+					)}
 				</div>
 			</div>
 		</div>

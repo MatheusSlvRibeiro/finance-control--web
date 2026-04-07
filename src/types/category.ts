@@ -8,4 +8,6 @@ export interface Category {
 	type: CategoryType
 	color: string
 	icon: ReactNode
+	colorKey?: string
+	iconKey?: string
 }

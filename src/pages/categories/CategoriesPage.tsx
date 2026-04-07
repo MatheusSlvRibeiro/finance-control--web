@@ -13,6 +13,9 @@ import styles from './Categoriespage.module.scss'
 import { CategoryForm } from './_components/CategoryForm/CategoryForm'
 import { useCategoryModal } from './_hooks/useCategoryModal'
 import { CategoryTypeTabs } from './_components/CategoryTypeTabs/CategoryTypeTabs'
+import { categoryService } from '@services/category/categoryService'
+import { ICON_OPTIONS } from '@services/category/categoryNormalizer'
+import { parseApiError } from '@utils/parseApiError/parseApiError'
 
 export type ModalType = 'create' | 'edit' | 'delete' | null
 
@@ -30,24 +33,48 @@ export default function CategoriesPage() {
 		close: closeModal,
 	} = useCategoryModal()
 
-	const handleSave = () => {
-		toast('Informações atualizadas com sucesso!', {
-			toastId: 'category-info-success',
-		})
-		closeModal()
+	const handleSave = async () => {
+		const payload = {
+			name: form.name,
+			category_type: form.type,
+			category_color: form.colorKey,
+			category_icon: form.iconKey,
+		}
+
+		try {
+			if (modalType === 'create') {
+				await categoryService.create(payload)
+				toast('Categoria criada com sucesso!', { toastId: 'category-create-success' })
+			} else if (modalType === 'edit' && selectedCategory) {
+				await categoryService.update(selectedCategory.uuid, payload)
+				toast('Categoria atualizada com sucesso!', { toastId: 'category-edit-success' })
+			}
+			await reload()
+			closeModal()
+		} catch (error) {
+			toast(parseApiError(error, 'Erro ao salvar categoria. Tente novamente!'), {
+				toastId: 'category-save-error',
+			})
+		}
+	}
+
+	const handleDelete = async () => {
+		if (!selectedCategory) return
+		try {
+			await categoryService.delete(selectedCategory.uuid)
+			toast('Categoria excluída com sucesso!', { toastId: 'category-delete-success' })
+			await reload()
+			closeModal()
+		} catch (error) {
+			toast(parseApiError(error, 'Erro ao excluir categoria. Tente novamente!'), {
+				toastId: 'category-delete-error',
+			})
+		}
 	}
 
 	const [activeTab, setActiveTab] = useState<CategoryType>('income')
 
-	const iconOptions = useMemo(
-		() =>
-			categories.map((c) => ({
-				value: c.uuid,
-				label: c.name,
-				icon: c.icon,
-			})),
-		[categories],
-	)
+	const iconOptions = ICON_OPTIONS
 
 	const filtered = useMemo(
 		() => categories.filter((c) => c.type === activeTab),
@@ -111,6 +138,7 @@ export default function CategoriesPage() {
 							</>
 						}
 						closeModal={closeModal}
+						deleteAction={handleDelete}
 						deleteMessage="Categoria excluída com sucesso!"
 					/>
 				)}

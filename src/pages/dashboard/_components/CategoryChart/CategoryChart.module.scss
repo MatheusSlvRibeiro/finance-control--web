@@ -93,3 +93,9 @@
 .pieChart__infoValue {
 	color: $secondary-foreground;
 }
+
+.empty {
+	color: $secondary-foreground;
+	font-size: $font-sm;
+	text-align: center;
+}

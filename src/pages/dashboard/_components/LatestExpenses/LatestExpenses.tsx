@@ -53,7 +53,7 @@ export function LatestExpenses() {
 				</Link>
 			</div>
 
-			<TransactionsTable data={latestExpenses} />
+			<TransactionsTable data={latestExpenses} onReload={reload} />
 		</div>
 	)
 }

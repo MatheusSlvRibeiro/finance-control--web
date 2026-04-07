@@ -79,27 +79,16 @@ export function TransactionForm({ initialValues, onSubmit, formId }: Transaction
 	);
 
 	useEffect(() => {
+		const rawCategory = (initialValues as any)?.category ?? '';
+		const rawAccount = (initialValues as any)?.account ?? '';
 		setDescription(initialValues?.description ?? '');
 		setType((initialValues?.type as TransactionType) ?? '');
-		setCategory('');
-		setAccount('');
+		setCategory(rawCategory);
+		setAccount(rawAccount);
 		setDate(toDateInputValue(initialValues?.date));
-		setValueInCents(Math.round(((initialValues as any)?.value ?? 0) * 100));
+		setValueInCents(Math.round(Number((initialValues as any)?.value ?? 0) * 100));
 		setErrors({});
 	}, [initialValues]);
-
-	useEffect(() => {
-		const rawCategory = (initialValues as any)?.categoryId ?? (initialValues as any)?.category;
-		const rawAccount = (initialValues as any)?.accountId ?? (initialValues as any)?.account;
-		if (!category && rawCategory) setCategory(findOptionValue(categoryOptions, rawCategory));
-		if (!account && rawAccount) setAccount(findOptionValue(accountOptions, rawAccount));
-	}, [initialValues, categoryOptions, accountOptions, category, account]);
-
-	useEffect(() => {
-		if (!category) return;
-		if (categoryOptions.some((opt) => opt.value === category)) return;
-		setCategory('');
-	}, [category, categoryOptions]);
 
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();

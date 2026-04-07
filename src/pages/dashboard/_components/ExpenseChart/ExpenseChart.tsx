@@ -58,8 +58,8 @@ export function ExpenseChart() {
 		}
 
 		transactions.forEach((t) => {
-			const value = Number.isFinite(t.value) ? t.value : 0
-			const date = new Date(`${t.date}T00:00:00`)
+			const value = Number(t.value)
+			const date = new Date(t.date)
 			if (!Number.isFinite(date.getTime())) return
 
 			const key = `${date.getFullYear()}-${date.getMonth()}`

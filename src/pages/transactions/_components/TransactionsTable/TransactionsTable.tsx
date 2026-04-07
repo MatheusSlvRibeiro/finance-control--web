@@ -29,9 +29,10 @@ export type TransactionsTableRow = {
 
 type Props = {
 	data: Transaction[];
+	onReload?: () => void;
 };
 
-export function TransactionsTable({ data }: Props) {
+export function TransactionsTable({ data, onReload }: Props) {
 	const isMobile = useMediaQuery({ maxWidth: 768 });
 	const { loading, error, reload } = useTransactions();
 	const { data: accounts, reload: reloadAccounts } = useAccounts();
@@ -65,12 +66,14 @@ export function TransactionsTable({ data }: Props) {
 		});
 		await reload();
 		await reloadAccounts();
+		onReload?.();
 		closeModal();
 	};
 
 	const handleDeleteSave = async () => {
 		await reload();
 		await reloadAccounts();
+		onReload?.();
 		closeModal();
 	};
 

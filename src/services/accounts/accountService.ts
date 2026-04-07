@@ -23,7 +23,7 @@ const sumTransactions = (
 	transactions.reduce(
 		(acc, t) =>
 			t.account === accountId && getTransactionType(t, categories) === type
-				? acc + t.value
+				? acc + Number(t.value)
 				: acc,
 		0,
 	);

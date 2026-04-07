@@ -42,12 +42,28 @@ const ICON_MAP: Record<string, React.ReactNode> = {
 	partypopper: <PartyPopper size={18} />,
 }
 
+export const ICON_OPTIONS = Object.entries(ICON_MAP).map(([key, icon]) => ({
+	value: key,
+	label: key,
+	icon,
+}))
+
+export const COLOR_OPTIONS: { key: string; hex: string }[] = Object.entries(COLOR_MAP).map(
+	([key, hex]) => ({ key, hex }),
+)
+
 export function normalizeCategory(raw: CategoryRaw): Category {
 	return {
-		uuid:  raw.uuid,
-		name:  raw.name,
-		type:  raw.category_type as CategoryType,
-		color: COLOR_MAP[raw.category_color] ?? raw.category_color,
-		icon:  ICON_MAP[raw.category_icon] ?? null,
+		uuid:     raw.uuid,
+		name:     raw.name,
+		type:     raw.category_type as CategoryType,
+		color:    COLOR_MAP[raw.category_color] ?? raw.category_color,
+		icon:     ICON_MAP[raw.category_icon] ?? null,
+		colorKey: raw.category_color,
+		iconKey:  raw.category_icon,
 	}
+}
+
+export function reverseColor(hex: string): string {
+	return Object.entries(COLOR_MAP).find(([, v]) => v === hex)?.[0] ?? 'gray'
 }

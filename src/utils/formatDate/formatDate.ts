@@ -1,15 +1,10 @@
-const today = new Date();
-const yesterday = new Date();
-yesterday.setDate(today.getDate() - 1);
-
 export function formatDate(date: string): string {
 	try {
-		const cleanDate = date?.split('.')[0] + 'Z';
-		const d = new Date(cleanDate);
+		const d = new Date(date);
 		if (isNaN(d.getTime())) return 'Data inválida';
 
-		const day = d.toLocaleDateString('pt-BR', { day: '2-digit' });
-		const month = d.toLocaleDateString('pt-BR', { month: 'short' }).replace('.', '');
+		const day = d.toLocaleDateString('pt-BR', { day: '2-digit', timeZone: 'UTC' });
+		const month = d.toLocaleDateString('pt-BR', { month: 'short', timeZone: 'UTC' }).replace('.', '');
 		return `${day}/${month}`;
 	} catch {
 		return 'Data inválida';
