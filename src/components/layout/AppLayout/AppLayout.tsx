@@ -1,5 +1,5 @@
 import { Outlet } from 'react-router-dom'
-import AppHeader from '@components/layout/AppLayout/_components/Appheader/AppHeader'
+import AppHeader from '@components/layout/AppLayout/_components/AppHeader/AppHeader'
 import AppSidebar from '@components/layout/AppLayout/_components/AppSidebar/AppSidebar'
 import styles from '@components/layout/AppLayout/AppLayout.module.scss'
 import { useState } from 'react'
