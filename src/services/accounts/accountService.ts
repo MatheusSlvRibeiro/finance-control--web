@@ -1,9 +1,15 @@
-import type { Account } from '@appTypes/account';
-import { NumericAccountField } from '@appTypes/numericAccountField';
+import type { Account, AccountType } from '@appTypes/account';
+import type { NumericAccountField } from '@appTypes/numericAccountField';
 import type { Transaction } from '@appTypes/transaction';
 import api from '@services/api';
 import GenericService from '@services/genericService';
 import { transactionService } from '@services/transactions/transactionService';
+
+export type AccountPayload = {
+	name: string;
+	opening_balance: number;
+	account_type: string;
+};
 
 const sumBy = (accounts: Account[], field: NumericAccountField) =>
 	accounts.reduce((acc, a) => acc + (a[field] ?? 0), 0);
@@ -14,15 +20,28 @@ const sumTransactions = (
 	type: 'income' | 'expense',
 ) =>
 	transactions.reduce(
-		(acc, t) => (t.account === accountId && t.type === type ? acc + Number(t.value) : acc),
+		(acc, t) => (String(t.account) === accountId && t.type === type ? acc + Number(t.value) : acc),
 		0,
 	);
 
-function normalizeAccount(account: any): Account {
+type AccountRaw = {
+	uuid: string;
+	name: string;
+	account_type: AccountType;
+	opening_balance: string | number;
+};
+
+function normalizeAccount(raw: AccountRaw): Account {
 	return {
-		...account,
-		type: account.account_type ?? account.type,
-		openingBalance: Number(account.opening_balance),
+		uuid: raw.uuid,
+		name: raw.name,
+		type: raw.account_type,
+		openingBalance: Number(raw.opening_balance),
+		incomes: 0,
+		expenses: 0,
+		incomingTransfer: 0,
+		outgoingTransfers: 0,
+		balance: 0,
 	};
 }
 
@@ -43,19 +62,17 @@ class AccountService extends GenericService<Account> {
 
 	getAccountNameById(accounts: Account[], uuid: string | undefined | null): string {
 		if (!uuid) return 'Sem conta';
-		const acc = accounts.find((a) => a.uuid === uuid);
-		return acc ? acc.name : 'Sem conta';
+		return accounts.find((a) => a.uuid === uuid)?.name ?? 'Sem conta';
 	}
 
 	async getUserAccounts(): Promise<Account[]> {
-		const response = await api.get('/api/v1/accounts');
-		const accounts = Array.isArray(response.data.results) ? response.data.results : [];
-		return accounts.map(normalizeAccount);
+		const { data } = await api.get<{ results: AccountRaw[] }>(this.url);
+		return Array.isArray(data.results) ? data.results.map(normalizeAccount) : [];
 	}
 
 	private async fetchTransactions(): Promise<Transaction[]> {
-		const raw = await transactionService.getAll();
-		return Array.isArray(raw.results) ? raw.results : [];
+		const res = await transactionService.getAll({ params: { page_size: 1000 } });
+		return Array.isArray(res.results) ? res.results : [];
 	}
 
 	async getUserAccountsWithTotals(): Promise<Account[]> {
@@ -67,18 +84,14 @@ class AccountService extends GenericService<Account> {
 	}
 
 	async getTotals(): Promise<Record<NumericAccountField, number>> {
-		const [accounts, transactions] = await Promise.all([
-			this.getUserAccounts(),
-			this.fetchTransactions(),
-		]);
-		const accountsWithTotals = accounts.map((a) => withDerivedTotals(a, transactions));
+		const accounts = await this.getUserAccountsWithTotals();
 		return {
-			openingBalance: sumBy(accountsWithTotals, 'openingBalance'),
-			incomes: sumBy(accountsWithTotals, 'incomes'),
-			incomingTransfer: sumBy(accountsWithTotals, 'incomingTransfer'),
-			outgoingTransfers: sumBy(accountsWithTotals, 'outgoingTransfers'),
-			expenses: sumBy(accountsWithTotals, 'expenses'),
-			balance: sumBy(accountsWithTotals, 'balance'),
+			openingBalance: sumBy(accounts, 'openingBalance'),
+			incomes: sumBy(accounts, 'incomes'),
+			incomingTransfer: sumBy(accounts, 'incomingTransfer'),
+			outgoingTransfers: sumBy(accounts, 'outgoingTransfers'),
+			expenses: sumBy(accounts, 'expenses'),
+			balance: sumBy(accounts, 'balance'),
 		};
 	}
 
@@ -93,18 +106,6 @@ class AccountService extends GenericService<Account> {
 			expenses: derived.expenses,
 			balance: derived.balance,
 		};
-	}
-
-	async create(payload: { name: string; opening_balance: number; account_type: string }): Promise<void> {
-		await api.post('/api/v1/accounts/', payload);
-	}
-
-	async update(uuid: string, payload: { name: string; opening_balance: number; account_type: string }): Promise<void> {
-		await api.put(`/api/v1/accounts/${uuid}/`, payload);
-	}
-
-	async delete(uuid: string): Promise<void> {
-		await api.delete(`/api/v1/accounts/${uuid}/`);
 	}
 }
 
