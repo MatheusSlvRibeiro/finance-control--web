@@ -1,60 +1,57 @@
-.cardContainer {
+.grid {
 	display: grid;
-	margin: $space-xl;
-	gap: 2rem;
+	gap: $space-lg;
+
+	@media (min-width: $breakpoint-md) {
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	@media (min-width: $breakpoint-lg) {
+		grid-template-columns: repeat(4, 1fr);
+	}
 }
 
-.cardContent {
-	display: grid;
-	margin: $space-sm;
-	padding: $space-lg;
-	justify-content: start;
+.card {
 	background-color: $white;
+	border: 1px solid $gray-light;
 	border-radius: $radius-lg;
-	box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+	padding: $space-xl;
+	display: flex;
+	flex-direction: column;
 	gap: $space-md;
-	max-width: 300px;
-	margin: 0 auto;
+	transition: box-shadow 200ms ease, transform 200ms ease;
+
+	&:hover {
+		box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+		transform: translateY(-2px);
+
+		.card__icon {
+			background-color: color.adjust($primary, $lightness: 38%);
+		}
+	}
 }
 
-.cardIcon {
-	background-color: color.adjust($green, $lightness: 47%);
-	padding: $space-sm;
-	width: 50px;
-	height: 50px;
+.card__icon {
+	width: 48px;
+	height: 48px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	background-color: color.adjust($primary, $lightness: 48%);
+	color: $primary;
 	border-radius: $radius-lg;
-	color: $green;
+	transition: background-color 200ms ease;
+	flex-shrink: 0;
 }
 
-.cardContent:hover {
-	.cardIcon {
-		background-color: color.adjust($green, $lightness: 40%);
-	}
-}
-
-.title {
-	color: $dark;
-	font-weight: $font-bold;
+.card__title {
 	font-size: $font-md;
+	font-weight: $font-semibold;
+	color: $dark;
 }
 
-.content {
+.card__content {
+	font-size: $font-sm;
 	color: $gray-muted;
-}
-
-@media (min-width: $breakpoint-md) {
-	.cardContainer {
-		grid-template-columns: repeat(2, 1fr);
-	}
-}
-
-@media (min-width: $breakpoint-lg) {
-	.cardContainer {
-		grid-template-columns: repeat(4, 1fr);
-		max-width: 1200px;
-		margin: 3rem auto;
-	}
+	line-height: 1.65;
 }

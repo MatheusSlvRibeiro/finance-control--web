@@ -11,8 +11,14 @@
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
-	padding: $space-md;
+	padding: $space-md $space-lg;
 	align-items: center;
 	margin: 0 auto;
 	max-width: $breakpoint-xxl;
+}
+
+.nav {
+	display: flex;
+	align-items: center;
+	gap: $space-sm;
 }

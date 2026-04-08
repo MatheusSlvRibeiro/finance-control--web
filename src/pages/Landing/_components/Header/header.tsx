@@ -9,11 +9,18 @@ export function Header() {
 			<div className={styles.headerContent}>
 				<Logo />
 
-				<Link to="/login">
-					<Button size="sm" variant="login">
-						Entrar
-					</Button>
-				</Link>
+				<nav className={styles.nav}>
+					<Link to="/login">
+						<Button size="sm" variant="login">
+							Entrar
+						</Button>
+					</Link>
+					<Link to="/register">
+						<Button size="sm" variant="register">
+							Criar conta grátis
+						</Button>
+					</Link>
+				</nav>
 			</div>
 		</header>
 	)
