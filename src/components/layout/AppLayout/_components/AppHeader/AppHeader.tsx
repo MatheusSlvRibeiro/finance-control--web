@@ -5,8 +5,8 @@ import styles from './AppHeader.module.scss';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@context/authContext';
 import { useState, useRef, useEffect } from 'react';
-import { useUser } from '@hooks/useUser';
-// import { useTheme } from '@context/themeContext';
+import { useUserContext as useUser } from '@context/userContext';
+import { useTheme } from '@context/themeContext';
 
 interface HeaderProps {
 	onMenuClick?: () => void;
@@ -24,7 +24,7 @@ export default function AppHeader({ onMenuClick, sidebarOpen }: HeaderProps) {
 	const navigate = useNavigate();
 	const { logout } = useAuth();
 	const { user } = useUser();
-	// const { theme, toggleTheme } = useTheme();
+	const { theme, toggleTheme } = useTheme();
 
 	const [open, setOpen] = useState(false);
 	const [isLoggingOut, setIsLoggingOut] = useState(false);
@@ -90,14 +90,14 @@ export default function AppHeader({ onMenuClick, sidebarOpen }: HeaderProps) {
 			<Logo />
 
 			<div className={styles.header__actions}>
-				{/* <button
+				<button
 					type="button"
 					className={styles.theme__toggle}
 					onClick={toggleTheme}
 					aria-label={theme === 'light' ? 'Ativar modo escuro' : 'Ativar modo claro'}
 				>
 					{theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
-				</button> */}
+				</button>
 
 				<div className={styles.user__wrapper} ref={dropdownRef}>
 					<button

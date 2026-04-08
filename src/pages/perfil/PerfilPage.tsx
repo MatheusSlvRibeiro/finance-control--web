@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 import { Camera, Eye, EyeOff } from 'lucide-react';
 import { toast } from 'react-toastify';
 import { PageHeader } from '@components/layout/PageHeader/PageHeader';
-import { useUser } from '@hooks/useUser';
+import { useUserContext as useUser } from '@context/userContext';
 import { userService } from '@services/user/userService';
 import type { UpdatePasswordPayload } from '@services/user/userService';
 import { parseApiError } from '@utils/parseApiError/parseApiError';
