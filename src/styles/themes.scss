@@ -68,6 +68,15 @@
 	// Shadow
 	--shadow-dropdown: 0 12px 30px rgba(0, 0, 0, 0.12);
 	--shadow-card: 0 2px 8px rgba(0, 0, 0, 0.06);
+
+	// Sidebar
+	--sidebar-bg: #ffffff;
+	--sidebar-text: #13171f;
+	--sidebar-text-muted: #727b8c;
+	--sidebar-item-hover: #f0f1f3;
+	--sidebar-item-active-bg: #13171f;
+	--sidebar-item-active-text: #ffffff;
+	--sidebar-border: #e5e7eb;
 }
 
 // -------------------------------------------------------------
@@ -115,4 +124,13 @@
 	// Shadow
 	--shadow-dropdown: 0 12px 30px rgba(0, 0, 0, 0.5);
 	--shadow-card: 0 2px 8px rgba(0, 0, 0, 0.3);
+
+	// Sidebar
+	--sidebar-bg: #161b22;
+	--sidebar-text: #e6edf3;
+	--sidebar-text-muted: #768390;
+	--sidebar-item-hover: #21262d;
+	--sidebar-item-active-bg: #0ab37a;
+	--sidebar-item-active-text: #ffffff;
+	--sidebar-border: #30363d;
 }
