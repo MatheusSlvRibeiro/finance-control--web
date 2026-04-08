@@ -170,7 +170,7 @@
 		min-height: 100vh;
 		padding: $space-3xl;
 		gap: 2rem;
-		background: linear-gradient(to left, $primary, darken($accent, 5%));
+		background: linear-gradient(to left, $primary, color.adjust($accent, $lightness: -5%));
 		color: $white;
 
 		.registerPage__decorativeContent {

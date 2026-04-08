@@ -146,7 +146,7 @@
 		max-width: 50%;
 		padding: $space-3xl;
 		gap: 2rem;
-		background: linear-gradient(to left, $primary, darken($accent, 5%));
+		background: linear-gradient(to left, $primary, color.adjust($accent, $lightness: -5%));
 
 		.loginPage__decorativeContent {
 			padding: 0 $space-2xl;
