@@ -111,7 +111,7 @@
 
 .finalCtaSection {
 	padding: 2rem 0;
-	background-color: color.adjust($green, $lightness: 50%);
+	background-color: color.adjust($green, $lightness: 75%);
 }
 
 .finalCtaContent {
@@ -124,6 +124,8 @@
 .finalCtaTitle {
 	margin: 0 auto;
 	width: 250px;
+	color: $dark;
+	font-size: $font-5xl;
 
 	@media (min-width: $breakpoint-md) {
 		width: 100%;
