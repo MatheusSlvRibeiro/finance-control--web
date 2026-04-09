@@ -101,7 +101,6 @@ export function ExpenseChart() {
 	}, [transactions]);
 
 	const isMobile = useMediaQuery({ maxWidth: 425 });
-	const charHeight = isMobile ? 200 : 300;
 
 	if (loading) {
 		return (
@@ -123,9 +122,9 @@ export function ExpenseChart() {
 	}
 
 	return (
-		<div className={styles.monthExpense} >
+		<div className={styles.monthExpense}>
 			<h3 className={styles.monthExpense__title}>Evolução Financeira</h3>
-			<div style={{ width: '100%', height: charHeight }}>
+			<div className={styles.monthExpense__chart}>
 				<ResponsiveContainer width="100%" height="100%">
 					<LineChart
 						data={evolutionData}

@@ -13,13 +13,14 @@
 	@media (min-width: $breakpoint-lg) {
 		max-width: 80%;
 	}
-
-	@media (min-width: $breakpoint-xl) {
-		max-height: 400px;
-	}
 }
 
 .monthExpense__title {
 	color: var(--text-primary);
 	font-weight: $font-medium;
+}
+
+.monthExpense__chart {
+	flex: 1;
+	min-height: 280px;
 }
