@@ -4,3 +4,8 @@
 	justify-content: space-between;
 	padding: $space-xxs 0;
 }
+
+.label {
+	font-size: $font-sm;
+	color: var(--text-muted);
+}

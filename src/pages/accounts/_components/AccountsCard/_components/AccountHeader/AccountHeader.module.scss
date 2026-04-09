@@ -7,17 +7,19 @@
 
 	.accountHeader__icon {
 		padding: $space-sm;
-		background-color: $gray-light;
+		background-color: var(--bg-muted);
 		border-radius: $radius-lg;
 		display: flex;
+		color: var(--text-primary);
 	}
 
 	.accountHeader__name {
 		font-weight: $font-medium;
+		color: var(--text-primary);
 	}
 
 	.accountHeader__type {
 		font-weight: $font-regular;
-		color: $secondary-foreground;
+		color: var(--text-muted);
 	}
 }

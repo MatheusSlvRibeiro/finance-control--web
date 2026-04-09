@@ -9,24 +9,27 @@
 		gap: 2rem;
 	}
 }
+
 .accountsCard {
 	display: flex;
 	flex-direction: column;
 	gap: 0.6rem;
-	background-color: $white;
+	background-color: var(--bg-surface);
+	border: 1px solid var(--border);
 	padding: $space-sm;
 	border-radius: $radius-lg;
-	box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+	box-shadow: var(--shadow-card);
 
 	&:hover {
-		box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.2);
+		box-shadow: var(--shadow-dropdown);
 	}
 }
+
 .accountsCard__currentBalance {
 	display: flex;
 	justify-content: space-between;
 	margin-top: 0.2rem;
-	background-color: $background;
+	background-color: var(--bg-muted);
 	align-items: center;
 	padding: $space-sm;
 	border-radius: $radius-lg;
@@ -34,10 +37,12 @@
 
 .accountsCard__currentBalanceLabel {
 	font-weight: $font-medium;
+	color: var(--text-primary);
 }
 
 .accountsCard__currentBalanceValue {
 	font-weight: $font-medium;
+	color: var(--text-primary);
 }
 
 .amountIncome {
@@ -49,5 +54,5 @@
 }
 
 .amountDefault {
-	color: $secondary-foreground;
+	color: var(--text-secondary);
 }
