@@ -4,28 +4,20 @@ import * as authService from '@services/auth/authService';
 import { useNavigate } from 'react-router-dom';
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-	const getStoredToken = () => localStorage.getItem('token');
-
-	const [accessToken, setAccessToken] = useState<string | null>(getStoredToken());
+	const [accessToken, setAccessToken] = useState<string | null>(authService.getToken);
 	const isAuthenticated = Boolean(accessToken);
 
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		const handleStorage = () => {
-			setAccessToken(getStoredToken());
-		};
+		const handleStorage = () => setAccessToken(authService.getToken());
 		window.addEventListener('storage', handleStorage);
 		return () => window.removeEventListener('storage', handleStorage);
 	}, []);
 
-	const login: AuthContextType['login'] = async (email, password) => {
-		const result = await authService.login(email, password);
-
-		if (result.success) {
-			setAccessToken(result.accessToken ?? null);
-		}
-
+	const login: AuthContextType['login'] = async (email, password, rememberMe = false) => {
+		const result = await authService.login(email, password, rememberMe);
+		if (result.success) setAccessToken(result.accessToken ?? null);
 		return result;
 	};
 
@@ -39,20 +31,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 			logout();
 			navigate('/login');
 		};
-
 		window.addEventListener('unauthorized', handleUnauthorized);
 		return () => window.removeEventListener('unauthorized', handleUnauthorized);
 	}, [logout, navigate]);
 
 	return (
-		<AuthContext.Provider
-			value={{
-				accessToken,
-				isAuthenticated,
-				login,
-				logout,
-			}}
-		>
+		<AuthContext.Provider value={{ accessToken, isAuthenticated, login, logout }}>
 			{children}
 		</AuthContext.Provider>
 	);

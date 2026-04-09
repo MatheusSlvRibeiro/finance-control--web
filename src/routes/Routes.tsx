@@ -5,6 +5,7 @@ import Dashboard from '@pages/dashboard/Dashboard';
 import TransactionsPage from '@pages/transactions/TransactionsPage';
 import PerfilPage from '@pages/perfil/PerfilPage';
 import SettingsPage from '@pages/settings/SettingsPage';
+import ForgotPasswordPage from '@pages/forgotPassword/ForgotPasswordPage';
 import Login from '@pages/login/LoginPage';
 import Register from '@pages/register/RegisterPage';
 import Landing from '@pages/Landing/Landing';
@@ -30,6 +31,7 @@ export default function AppRoutes() {
 					<Route path="/" element={<Landing />} />
 					<Route path="/login" element={<Login />} />
 					<Route path="/register" element={<Register />} />
+					<Route path="/forgot-password" element={<ForgotPasswordPage />} />
 
 					<Route element={<ProtectedRoute />}>
 						<Route element={<AppLayout />}>

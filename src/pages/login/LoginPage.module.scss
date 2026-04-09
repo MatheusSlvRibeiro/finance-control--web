@@ -1,5 +1,3 @@
-@use 'sass:color';
-
 .loginPage__container {
 	display: flex;
 	flex-direction: column;
@@ -14,7 +12,8 @@
 }
 
 .loginPage__section {
-	background-color: var(--bg-base);
+	background-color: $background;
+	width: 100%;
 	padding: $space-2xl;
 	display: flex;
 	flex-direction: column;
@@ -44,17 +43,17 @@
 }
 
 .loginPage__headerTitle {
-	color: var(--text-primary);
+	color: $dark;
 }
 
 .loginPage__headerSubtitle {
-	color: var(--text-muted);
+	color: $gray-muted;
 }
 
 .loginPage__btnRegister {
 	text-align: center;
 	font-weight: $font-medium;
-	color: var(--text-muted);
+	color: $gray-muted;
 
 	span {
 		color: $green;
@@ -84,26 +83,60 @@
 
 	label {
 		font-weight: $font-medium;
-		color: var(--text-primary);
+		color: $dark;
 	}
 
 	input {
-		border: 1px solid var(--border);
+		border: 1px solid $sidebar-foreground;
 		padding: $space-sm;
 		border-radius: $radius-md;
-		background-color: var(--bg-surface);
-		color: var(--text-primary);
+		background-color: $background;
 		width: 100%;
 
-		&::placeholder {
-			color: var(--text-muted);
-		}
-
 		&:focus {
-			outline: 2px solid var(--ring);
+			outline: 2px solid $green;
 			outline-offset: 2px;
 		}
 	}
+}
+
+.loginForm__labelRow {
+	display: flex;
+	justify-content: space-between;
+	align-items: baseline;
+}
+
+.loginForm__forgotLink {
+	font-size: $font-xs;
+	color: $green;
+	text-decoration: none;
+	font-weight: $font-medium;
+
+	&:hover {
+		text-decoration: underline;
+	}
+}
+
+.loginForm__remember {
+	display: flex;
+	align-items: center;
+	gap: $space-xs;
+	font-size: $font-sm;
+	color: var(--text-muted);
+	cursor: pointer;
+	user-select: none;
+}
+
+.loginForm__checkbox {
+	width: 16px;
+	height: 16px;
+	accent-color: $green;
+	cursor: pointer;
+}
+
+.error {
+	font-size: $font-sm;
+	color: $destructive;
 }
 
 .loginForm__inputWrapper {
@@ -113,32 +146,30 @@
 	input {
 		width: 100%;
 	}
-
 	.show__password {
 		display: flex;
 		position: absolute;
 		right: 1rem;
 		top: 50%;
 		transform: translateY(-50%);
-		color: var(--text-muted);
+		color: $gray-muted;
 		background-color: transparent;
 		border: none;
 		cursor: pointer;
 	}
-
 	.loginForm__showPassword {
 		display: flex;
 		position: absolute;
 		right: 1rem;
 		top: 50%;
 		transform: translateY(-50%);
-		color: var(--text-muted);
+		color: $gray-muted;
 		background-color: transparent;
 		border: none;
 		cursor: pointer;
 
 		&:hover {
-			color: var(--text-primary);
+			color: $dark;
 		}
 	}
 }

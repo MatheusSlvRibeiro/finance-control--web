@@ -14,29 +14,15 @@ type LoginFormState = {
 
 export default function Login() {
 	const cards = [
-		{
-			title: '10k+',
-			value: 'Usuários ativos',
-		},
-		{
-			title: 'R$ 50M',
-			value: 'Em movimentações financeiras',
-		},
-		{
-			title: '99,9%',
-			value: 'Disponibilidade da plataforma',
-		},
-		{
-			title: '4.9 ⭐',
-			value: 'Avaliação média dos usuários',
-		},
+		{ title: '10k+', value: 'Usuários ativos' },
+		{ title: 'R$ 50M', value: 'Em movimentações financeiras' },
+		{ title: '99,9%', value: 'Disponibilidade da plataforma' },
+		{ title: '4.9 ⭐', value: 'Avaliação média dos usuários' },
 	]
 
-	const [values, setValues] = useState<LoginFormState>({
-		email: '',
-		password: '',
-	})
+	const [values, setValues] = useState<LoginFormState>({ email: '', password: '' })
 	const [showPassword, setShowPassword] = useState(false)
+	const [rememberMe, setRememberMe] = useState(false)
 	const [error, setError] = useState<string | null>(null)
 
 	const navigate = useNavigate()
@@ -44,7 +30,6 @@ export default function Login() {
 
 	function onChange(event: React.ChangeEvent<HTMLInputElement>) {
 		const { value, name } = event.target
-
 		setValues((prev) => ({ ...prev, [name]: value }))
 	}
 
@@ -52,12 +37,10 @@ export default function Login() {
 		e.preventDefault()
 		setError(null)
 
-		const result = await login(values.email, values.password)
+		const result = await login(values.email, values.password, rememberMe)
 
 		if (result.success) {
-			toast('Autenticado com sucesso!', {
-				toastId: 'login-successfull',
-			})
+			toast('Autenticado com sucesso!', { toastId: 'login-successfull' })
 			navigate('/dashboard')
 			return
 		}
@@ -94,8 +77,14 @@ export default function Login() {
 								value={values.email}
 							/>
 						</div>
+
 						<div className={styles.loginForm__input}>
-							<label htmlFor="password">Senha</label>
+							<div className={styles.loginForm__labelRow}>
+								<label htmlFor="password">Senha</label>
+								<Link to="/forgot-password" className={styles.loginForm__forgotLink}>
+									Esqueci minha senha
+								</Link>
+							</div>
 							<div className={styles.loginForm__inputWrapper}>
 								<input
 									id="password"
@@ -108,18 +97,30 @@ export default function Login() {
 									value={values.password}
 								/>
 								<button
-									className={styles.show__password}
+									className={styles.loginForm__showPassword}
 									type="button"
 									onClick={() => setShowPassword(!showPassword)}
 									tabIndex={-1}
+									aria-label={showPassword ? 'Ocultar senha' : 'Mostrar senha'}
 								>
-									{showPassword ? <EyeOff /> : <Eye />}
+									{showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
 								</button>
 							</div>
 						</div>
 
+						<label className={styles.loginForm__remember}>
+							<input
+								type="checkbox"
+								checked={rememberMe}
+								onChange={(e) => setRememberMe(e.target.checked)}
+								className={styles.loginForm__checkbox}
+							/>
+							Lembrar de mim
+						</label>
+
 						{error && <p className={styles.error}>{error}</p>}
 					</div>
+
 					<Button type="submit" variant="register">
 						Entrar
 					</Button>
