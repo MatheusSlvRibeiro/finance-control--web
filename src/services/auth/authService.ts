@@ -48,6 +48,21 @@ export async function logout() {
 	sessionStorage.removeItem(REFRESH_KEY);
 }
 
+export async function registerUser(data: {
+	name: string;
+	email: string;
+	password: string;
+	password_confirm: string;
+}) {
+	try {
+		const response = await api.post('/api/v1/users/', data);
+		return response.data;
+	} catch (error) {
+		if (error instanceof AxiosError) throw error.response?.data ?? error;
+		throw error;
+	}
+}
+
 // ── Senha (mock) ─────────────────────────────────────────────────────────────
 
 const MOCK_CODE = '123456';
