@@ -1,3 +1,5 @@
+@use 'sass:color';
+
 .registerPage__container {
 	display: flex;
 	flex-direction: column;
@@ -12,7 +14,7 @@
 }
 
 .registerPage__section {
-	background-color: $background;
+	background-color: var(--bg-base);
 	padding: $space-2xl;
 	display: flex;
 	flex-direction: column;
@@ -42,17 +44,17 @@
 }
 
 .registerPage__headerTitle {
-	color: $dark;
+	color: var(--text-primary);
 }
 
 .registerPage__headerSubtitle {
-	color: $gray-muted;
+	color: var(--text-muted);
 }
 
 .registerPage__btn {
 	text-align: center;
 	font-weight: $font-medium;
-	color: $gray-muted;
+	color: var(--text-muted);
 
 	span {
 		color: $green;
@@ -82,18 +84,23 @@
 
 	label {
 		font-weight: $font-medium;
-		color: $dark;
+		color: var(--text-primary);
 	}
 
 	input {
-		border: 1px solid $sidebar-foreground;
+		border: 1px solid var(--border);
 		padding: $space-sm;
 		border-radius: $radius-md;
-		background-color: $background;
+		background-color: var(--bg-surface);
+		color: var(--text-primary);
 		width: 100%;
 
+		&::placeholder {
+			color: var(--text-muted);
+		}
+
 		&:focus {
-			outline: 2px solid $green;
+			outline: 2px solid var(--ring);
 			outline-offset: 2px;
 		}
 	}
@@ -118,8 +125,8 @@
 		}
 
 		.password__muted {
-			background-color: $muted;
-			color: $muted-foreground;
+			background-color: var(--bg-muted);
+			color: var(--text-muted);
 		}
 
 		.password__passed {
@@ -147,13 +154,13 @@
 		right: 1rem;
 		top: 50%;
 		transform: translateY(-50%);
-		color: $gray-muted;
+		color: var(--text-muted);
 		background-color: transparent;
 		border: none;
 		cursor: pointer;
 
 		&:hover {
-			color: $dark;
+			color: var(--text-primary);
 		}
 	}
 }
