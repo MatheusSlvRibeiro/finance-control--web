@@ -3,7 +3,7 @@
 	flex-direction: row;
 	justify-content: space-between;
 	padding: $space-md $space-xs;
-	border-bottom: 1px solid $gray-light;
+	border-bottom: 1px solid var(--border);
 }
 
 .transactionsTable__bodyRowMain {
@@ -13,12 +13,12 @@
 }
 
 .transactionsTable__bodyRowAccount {
-	color: $gray-muted;
+	color: var(--text-muted);
 	font-size: $font-sm;
 }
 
 .transactionsTable__bodyRowDescription {
-	color: $dark;
+	color: var(--text-primary);
 }
 
 .transactionsTable__bodyRowCategory {
@@ -26,7 +26,7 @@
 	align-items: center;
 	gap: $space-xxs;
 	font-size: $font-sm;
-	color: $white;
+	color: #fff;
 	padding: $space-xxs $space-xs;
 	border-radius: $radius-lg;
 }
@@ -50,7 +50,7 @@
 }
 
 .transactionsTable__bodyRowDate {
-	color: $gray-muted;
+	color: var(--text-muted);
 	text-align: end;
 }
 

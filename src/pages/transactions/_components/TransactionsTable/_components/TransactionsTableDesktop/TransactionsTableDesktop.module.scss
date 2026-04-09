@@ -4,19 +4,19 @@
 }
 
 .transactionsTableDesktop__head {
-	border-bottom: 1px solid $border;
+	border-bottom: 1px solid var(--border);
 }
 
 .transactionsTableDesktop__body {
 	tr + tr {
-		border-top: 1px solid $border;
+		border-top: 1px solid var(--border);
 	}
 }
 
 .transactionsTableDesktop__headCell {
 	text-align: start;
 	font-weight: $font-regular;
-	color: $secondary-foreground;
+	color: var(--text-muted);
 	padding: $space-md $space-xs;
 }
 
@@ -26,6 +26,7 @@
 
 .transactionsTableDesktop__cell {
 	padding: $space-sm;
+	color: var(--text-primary);
 }
 
 .transactionsTableDesktop__cellEnd {
@@ -40,7 +41,7 @@
 	border-radius: $radius-lg;
 	text-align: center;
 	font-size: $font-sm;
-	color: $white;
+	color: #fff;
 	width: fit-content;
 }
 

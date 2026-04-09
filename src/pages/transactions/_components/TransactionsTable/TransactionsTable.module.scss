@@ -2,10 +2,11 @@
 	display: flex;
 	flex-direction: column;
 	gap: 1.5rem;
-	background-color: $white;
+	background-color: var(--bg-surface);
+	border: 1px solid var(--border);
 	border-radius: $radius-lg;
 	padding: $space-md;
-	box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+	box-shadow: var(--shadow-card);
 }
 
 .transactionsTable__empty {
@@ -20,5 +21,5 @@
 
 .transactionsTable__emptyText {
 	font-weight: $font-medium;
-	color: $dark;
+	color: var(--text-primary);
 }
