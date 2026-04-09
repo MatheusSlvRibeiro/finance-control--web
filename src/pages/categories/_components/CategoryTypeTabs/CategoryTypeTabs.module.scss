@@ -20,21 +20,22 @@
 	flex-direction: column;
 	align-items: center;
 	border: none;
-	background-color: $white;
+	background-color: var(--bg-surface);
 	flex: 1;
 	min-width: 0;
 	padding: $space-sm $space-xl;
-	border-top: 1px solid $gray-light;
+	border-top: 1px solid var(--border);
 	font-weight: $font-bold;
-	color: $gray-muted;
+	color: var(--text-muted);
 	gap: 0.3rem;
+	cursor: pointer;
 
 	&:not(:first-child) {
-		border-left: 1px solid $gray-light;
+		border-left: 1px solid var(--border);
 	}
 
 	&:hover {
-		background-color: $gray-light;
+		background-color: var(--bg-surface-hover);
 	}
 }
 

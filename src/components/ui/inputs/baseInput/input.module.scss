@@ -6,7 +6,7 @@
 	justify-content: space-between;
 
 	label {
-		color: $dark;
+		color: var(--text-primary);
 		font-weight: $font-medium;
 		font-size: $font-sm;
 	}
@@ -24,19 +24,26 @@
 	transform: translateY(-50%);
 	pointer-events: none;
 	opacity: 0.9;
+	color: var(--text-muted);
 }
 
 .control {
 	padding: $space-xs;
 	border-radius: $radius-md;
-	border: 1px solid $gray-light;
+	border: 1px solid var(--border);
+	background-color: var(--bg-surface);
+	color: var(--text-primary);
 	width: 100%;
 	outline: none;
 
 	&::placeholder {
-		color: $dark;
+		color: var(--text-muted);
 		font-weight: $font-regular;
 		font-size: $font-sm;
+	}
+
+	&:focus {
+		border-color: var(--ring);
 	}
 }
 

@@ -8,8 +8,8 @@
 	justify-content: space-between;
 	align-items: center;
 	gap: $space-md;
-	background-color: $white;
-	border-bottom: 1px solid $border;
+	background-color: var(--bg-surface);
+	border-bottom: 1px solid var(--border);
 	padding: $space-sm $space-md;
 }
 
@@ -29,6 +29,7 @@
 
 .label {
 	font-weight: $font-medium;
+	color: var(--text-primary);
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -36,12 +37,12 @@
 
 .type {
 	font-size: $font-sm;
-	color: $secondary-foreground;
+	color: var(--text-muted);
 	flex: 0 0 auto;
 }
 
 .empty {
-	color: $secondary-foreground;
+	color: var(--text-muted);
 	padding: $space-md 0;
 }
 

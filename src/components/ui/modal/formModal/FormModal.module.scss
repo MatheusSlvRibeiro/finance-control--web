@@ -11,11 +11,11 @@
 }
 
 .title {
-	color: $dark;
+	color: var(--text-primary);
 }
 
 .message {
-	color: $secondary-foreground;
+	color: var(--text-muted);
 	font-size: $font-md;
 }
 

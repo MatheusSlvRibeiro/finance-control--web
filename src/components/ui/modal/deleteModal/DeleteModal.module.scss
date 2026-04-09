@@ -6,13 +6,13 @@
 
 .title {
 	font-weight: $font-bold;
-	color: $dark;
+	color: var(--text-primary);
 }
 
 .message {
 	font-weight: $font-regular;
 	font-size: $font-sm;
-	color: $secondary-foreground;
+	color: var(--text-muted);
 }
 
 .buttons {

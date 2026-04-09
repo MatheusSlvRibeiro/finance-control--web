@@ -1,9 +1,12 @@
+@use 'sass:color';
+
 %button-base {
 	background-color: transparent;
-	border: 1px solid $gray-light;
+	border: 1px solid var(--border);
 	padding: $space-sm $space-md;
 	border-radius: $radius-lg;
 	cursor: pointer;
+	color: var(--text-primary);
 }
 
 .default {

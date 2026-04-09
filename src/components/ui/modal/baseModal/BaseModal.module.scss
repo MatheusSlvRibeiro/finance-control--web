@@ -12,10 +12,10 @@
 .container {
 	width: 100%;
 	max-width: 400px;
-	background: #fff;
+	background: var(--bg-surface);
 	border-radius: 12px;
 	padding: $space-lg;
-	box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+	box-shadow: var(--shadow-dropdown);
 	position: relative;
 }
 
@@ -29,10 +29,16 @@
 	display: inline-flex;
 	border-radius: 10px;
 	cursor: pointer;
-}
+	color: var(--text-muted);
 
-.closeButton:active {
-	background: rgba(0, 0, 0, 0.06);
+	&:hover {
+		background: var(--bg-surface-hover);
+		color: var(--text-primary);
+	}
+
+	&:active {
+		background: var(--bg-surface-hover);
+	}
 }
 
 .text {

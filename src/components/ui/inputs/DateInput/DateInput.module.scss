@@ -6,22 +6,28 @@
 	justify-content: space-between;
 
 	label {
-		color: $dark;
+		color: var(--text-primary);
 		font-weight: $font-medium;
 		font-size: $font-sm;
 	}
 }
 
 .input {
-	border: 1px solid $gray-light;
+	border: 1px solid var(--border);
+	background-color: var(--bg-surface);
+	color: var(--text-primary);
 	padding: $space-xs;
 	border-radius: $radius-md;
 	min-width: 100%;
 	outline: none;
 
 	&::placeholder {
-		color: $dark;
+		color: var(--text-muted);
 		font-weight: $font-regular;
 		font-size: $font-sm;
+	}
+
+	&:focus {
+		border-color: var(--ring);
 	}
 }
