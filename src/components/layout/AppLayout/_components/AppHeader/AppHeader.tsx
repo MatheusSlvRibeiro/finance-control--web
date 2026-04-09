@@ -1,12 +1,11 @@
 import { useMediaQuery } from 'react-responsive';
 import { Logo } from '@components/layout/logo/logo';
-import { ExternalLinkIcon, Menu, Moon, Sun, User, X } from 'lucide-react';
+import { ExternalLinkIcon, Menu, User, X } from 'lucide-react';
 import styles from './AppHeader.module.scss';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@context/authContext';
 import { useState, useRef, useEffect } from 'react';
 import { useUserContext as useUser } from '@context/userContext';
-import { useTheme } from '@context/themeContext';
 
 interface HeaderProps {
 	onMenuClick?: () => void;
@@ -16,7 +15,6 @@ interface HeaderProps {
 const navItems = [
 	{ name: 'Perfil', path: '/perfil' },
 	{ name: 'Configurações', path: '/config' },
-	{ name: 'Sobre', path: '/about' },
 ];
 
 export default function AppHeader({ onMenuClick, sidebarOpen }: HeaderProps) {
@@ -24,7 +22,6 @@ export default function AppHeader({ onMenuClick, sidebarOpen }: HeaderProps) {
 	const navigate = useNavigate();
 	const { logout } = useAuth();
 	const { user } = useUser();
-	const { theme, toggleTheme } = useTheme();
 
 	const [open, setOpen] = useState(false);
 	const [isLoggingOut, setIsLoggingOut] = useState(false);
@@ -90,15 +87,6 @@ export default function AppHeader({ onMenuClick, sidebarOpen }: HeaderProps) {
 			<Logo />
 
 			<div className={styles.header__actions}>
-				<button
-					type="button"
-					className={styles.theme__toggle}
-					onClick={toggleTheme}
-					aria-label={theme === 'light' ? 'Ativar modo escuro' : 'Ativar modo claro'}
-				>
-					{theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
-				</button>
-
 				<div className={styles.user__wrapper} ref={dropdownRef}>
 					<button
 						type="button"
@@ -109,9 +97,7 @@ export default function AppHeader({ onMenuClick, sidebarOpen }: HeaderProps) {
 						aria-label="Menu do usuário"
 						disabled={isLoggingOut}
 					>
-						{!isMobile && (
-							<p className={styles.user__name}>{user?.name}</p>
-						)}
+						{!isMobile && <p className={styles.user__name}>{user?.name}</p>}
 
 						<div className={styles.user__avatar}>
 							<User size={18} />

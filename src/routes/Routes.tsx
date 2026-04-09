@@ -4,6 +4,7 @@ import CategoriesPage from '@pages/categories/CategoriesPage';
 import Dashboard from '@pages/dashboard/Dashboard';
 import TransactionsPage from '@pages/transactions/TransactionsPage';
 import PerfilPage from '@pages/perfil/PerfilPage';
+import SettingsPage from '@pages/settings/SettingsPage';
 import Login from '@pages/login/LoginPage';
 import Register from '@pages/register/RegisterPage';
 import Landing from '@pages/Landing/Landing';
@@ -37,6 +38,7 @@ export default function AppRoutes() {
 							<Route path="/transactions" element={<TransactionsPage />} />
 							<Route path="/categories" element={<CategoriesPage />} />
 							<Route path="/perfil" element={<PerfilPage />} />
+							<Route path="/config" element={<SettingsPage />} />
 						</Route>
 					</Route>
 

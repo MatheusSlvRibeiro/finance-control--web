@@ -31,6 +31,10 @@ class UserService extends GenericService<User> {
 	async updatePassword(payload: UpdatePasswordPayload): Promise<void> {
 		await api.post('/api/v1/users/me/change-password/', payload);
 	}
+
+	async deleteMe(): Promise<void> {
+		await api.delete('/api/v1/users/me/');
+	}
 }
 
 export const userService = new UserService()

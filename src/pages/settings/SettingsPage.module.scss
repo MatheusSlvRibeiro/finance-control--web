@@ -1,0 +1,270 @@
+.settingsPage {
+	display: flex;
+	flex-direction: column;
+	gap: 1.5rem;
+}
+
+// ── Bloco genérico ──────────────────────────────────────────
+.block {
+	background-color: var(--bg-surface);
+	border: 1px solid var(--border);
+	border-radius: $radius-lg;
+	padding: $space-lg;
+	display: flex;
+	flex-direction: column;
+	gap: $space-md;
+
+	@media (min-width: $breakpoint-md) {
+		flex-direction: row;
+		gap: $space-lg;
+	}
+}
+
+.block__header {
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+	min-width: 220px;
+}
+
+.block__title {
+	font-size: $font-md;
+	font-weight: $font-semibold;
+	color: var(--text-primary);
+}
+
+.block__description {
+	font-size: $font-sm;
+	color: var(--text-muted);
+	line-height: 1.5;
+}
+
+.block__content {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+// ── Aparência ───────────────────────────────────────────────
+.themeGroup {
+	display: flex;
+	flex-direction: row;
+	gap: $space-xs;
+}
+
+.themeBtn {
+	display: inline-flex;
+	align-items: center;
+	gap: $space-xxs;
+	padding: $space-xs $space-sm;
+	border: 1px solid var(--border);
+	border-radius: $radius-md;
+	background-color: var(--bg-base);
+	color: var(--text-muted);
+	font-size: $font-sm;
+	font-weight: $font-medium;
+	cursor: pointer;
+	transition:
+		border-color 120ms ease,
+		color 120ms ease,
+		background-color 120ms ease;
+
+	&:hover {
+		background-color: var(--bg-surface-hover);
+		color: var(--text-primary);
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--ring);
+		outline-offset: 2px;
+	}
+}
+
+.themeBtn__active {
+	border-color: var(--color-primary);
+	color: var(--color-primary);
+	background-color: var(--color-primary-subtle);
+}
+
+// ── Localização ─────────────────────────────────────────────
+.fieldGroup {
+	display: flex;
+	flex-direction: column;
+	gap: $space-md;
+}
+
+.field {
+	display: flex;
+	flex-direction: column;
+	gap: 0.3rem;
+}
+
+.field__label {
+	font-size: $font-sm;
+	font-weight: $font-medium;
+	color: var(--text-primary);
+}
+
+.field__select {
+	padding: $space-xs;
+	border: 1px solid var(--border);
+	border-radius: $radius-md;
+	background-color: var(--bg-surface);
+	color: var(--text-primary);
+	font-size: $font-sm;
+	max-width: 320px;
+	cursor: not-allowed;
+	opacity: 0.6;
+}
+
+.field__hint {
+	font-size: $font-xs;
+	color: var(--text-muted);
+}
+
+// ── Notificações ────────────────────────────────────────────
+.checkboxRow {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	gap: $space-md;
+	cursor: pointer;
+}
+
+.checkboxRow__disabled {
+	opacity: 0.55;
+	cursor: not-allowed;
+}
+
+.checkboxRow__info {
+	display: flex;
+	flex-direction: column;
+	gap: 0.2rem;
+}
+
+.checkboxRow__label {
+	font-size: $font-sm;
+	font-weight: $font-medium;
+	color: var(--text-primary);
+}
+
+.checkboxRow__hint {
+	font-size: $font-xs;
+	color: var(--text-muted);
+	line-height: 1.5;
+}
+
+.checkbox {
+	width: 18px;
+	height: 18px;
+	flex-shrink: 0;
+	accent-color: var(--color-primary);
+	cursor: inherit;
+}
+
+// ── Exportar ────────────────────────────────────────────────
+.exportGroup {
+	display: flex;
+	flex-direction: row;
+	gap: $space-xs;
+	flex-wrap: wrap;
+}
+
+.exportBtn {
+	display: inline-flex;
+	align-items: center;
+	gap: $space-xxs;
+	padding: $space-xs $space-md;
+	border: 1px solid var(--border);
+	border-radius: $radius-md;
+	background-color: var(--bg-base);
+	color: var(--text-primary);
+	font-size: $font-sm;
+	font-weight: $font-medium;
+	cursor: pointer;
+	transition:
+		background-color 120ms ease,
+		border-color 120ms ease;
+
+	&:hover:not(:disabled) {
+		background-color: var(--bg-surface-hover);
+		border-color: var(--color-primary);
+		color: var(--color-primary);
+	}
+
+	&:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--ring);
+		outline-offset: 2px;
+	}
+}
+
+// ── Zona de perigo ──────────────────────────────────────────
+.dangerZone {
+	display: flex;
+	flex-direction: column;
+	gap: $space-md;
+	padding: $space-md;
+	border: 1px solid var(--color-destructive-subtle);
+	border-radius: $radius-md;
+	background-color: var(--color-destructive-subtle);
+
+	@media (min-width: $breakpoint-sm) {
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+	}
+}
+
+.dangerZone__info {
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+}
+
+.dangerZone__label {
+	font-size: $font-sm;
+	font-weight: $font-semibold;
+	color: var(--color-destructive);
+}
+
+.dangerZone__hint {
+	font-size: $font-xs;
+	color: var(--text-muted);
+	line-height: 1.5;
+	max-width: 480px;
+}
+
+.dangerBtn {
+	display: inline-flex;
+	align-items: center;
+	gap: $space-xxs;
+	padding: $space-xs $space-md;
+	border: 1px solid var(--color-destructive);
+	border-radius: $radius-md;
+	background-color: transparent;
+	color: var(--color-destructive);
+	font-size: $font-sm;
+	font-weight: $font-medium;
+	cursor: pointer;
+	white-space: nowrap;
+	transition:
+		background-color 120ms ease,
+		color 120ms ease;
+
+	&:hover {
+		background-color: var(--color-destructive);
+		color: var(--color-destructive-foreground);
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--color-destructive);
+		outline-offset: 2px;
+	}
+}

@@ -1,4 +1,4 @@
-import { Banknote, Landmark, LayoutDashboardIcon, SquareChartGantt } from 'lucide-react'
+import { Banknote, Landmark, LayoutDashboardIcon, Settings, SquareChartGantt } from 'lucide-react'
 import styles from './AppSidebar.module.scss'
 import { NavLink } from 'react-router-dom'
 
@@ -28,6 +28,11 @@ export default function AppSidebar({ open, onClose }: Sidebar) {
 			icon: <SquareChartGantt />,
 			name: 'Categorias',
 			path: '/categories',
+		},
+		{
+			icon: <Settings />,
+			name: 'Configurações',
+			path: '/config',
 		},
 	]
 
