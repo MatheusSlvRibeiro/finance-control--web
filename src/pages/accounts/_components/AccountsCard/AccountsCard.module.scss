@@ -15,6 +15,7 @@
 	flex-direction: column;
 	gap: 0.6rem;
 	background-color: var(--bg-surface);
+	color: var(--text-primary);
 	border: 1px solid var(--border);
 	padding: $space-sm;
 	border-radius: $radius-lg;
@@ -23,6 +24,11 @@
 	&:hover {
 		box-shadow: var(--shadow-dropdown);
 	}
+}
+
+.accountsCard__metrics {
+	display: flex;
+	flex-direction: column;
 }
 
 .accountsCard__currentBalance {
