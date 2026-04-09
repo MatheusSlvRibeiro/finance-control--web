@@ -27,15 +27,15 @@ const CustomTooltip = ({ active, payload }: any) => {
 	return (
 		<div
 			style={{
-				background: 'var(--bg-surface)',
-				border: '1px solid var(--border)',
+				background: 'var(--color-surface, #1e1e2e)',
+				border: '1px solid var(--color-border, #2e2e3e)',
 				borderRadius: 8,
 				padding: '10px 14px',
 				fontSize: 13,
 			}}
 		>
 			<p style={{ margin: '0 0 4px', color, fontWeight: 600 }}>{name}</p>
-			<p style={{ margin: 0, color: 'var(--text-muted)' }}>{formatCurrency(value)}</p>
+			<p style={{ margin: 0, color: '#ccc' }}>{formatCurrency(value)}</p>
 		</div>
 	);
 };
@@ -177,8 +177,8 @@ export function CategoryChart() {
 								pointerEvents: 'none',
 							}}
 						>
-							<p style={{ margin: 0, fontSize: 11, color: 'var(--text-muted)' }}>Total</p>
-							<p style={{ margin: 0, fontSize: 13, fontWeight: 700, color: 'var(--text-primary)' }}>
+							<p style={{ margin: 0, fontSize: 11, color: '#888' }}>Total</p>
+							<p style={{ margin: 0, fontSize: 13, fontWeight: 700, color: '#ccc' }}>
 								{formatCurrency(total)}
 							</p>
 						</div>

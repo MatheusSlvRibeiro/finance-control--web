@@ -77,7 +77,6 @@ export default function SettingsPage() {
 		<div className={styles.settingsPage}>
 			<PageHeader title="Configurações" subtitle="Gerencie suas preferências e conta" />
 
-			{/* ── Aparência ── */}
 			<SettingsBlock
 				title="Aparência"
 				description="Escolha o tema da interface."
@@ -98,7 +97,6 @@ export default function SettingsPage() {
 				</div>
 			</SettingsBlock>
 
-			{/* ── Localização ── */}
 			<SettingsBlock
 				title="Localização"
 				description="Idioma e formato de moeda utilizados na interface."
@@ -122,7 +120,6 @@ export default function SettingsPage() {
 				</div>
 			</SettingsBlock>
 
-			{/* ── Notificações ── */}
 			<SettingsBlock
 				title="Notificações"
 				description="Preferências de comunicação por e-mail."
@@ -144,7 +141,6 @@ export default function SettingsPage() {
 				</label>
 			</SettingsBlock>
 
-			{/* ── Exportar dados ── */}
 			<SettingsBlock
 				title="Exportar dados"
 				description="Baixe todas as suas transações."
@@ -172,7 +168,6 @@ export default function SettingsPage() {
 				</div>
 			</SettingsBlock>
 
-			{/* ── Zona de perigo ── */}
 			<SettingsBlock
 				title="Zona de perigo"
 				description="Ações irreversíveis relacionadas à sua conta."

@@ -2,6 +2,7 @@
 	display: flex;
 	flex-direction: column;
 	gap: 1.5rem;
+	max-width: 800px;
 }
 
 // ── Bloco genérico ──────────────────────────────────────────
@@ -10,12 +11,13 @@
 	border: 1px solid var(--border);
 	border-radius: $radius-lg;
 	padding: $space-lg;
-	display: flex;
-	flex-direction: column;
+	display: grid;
+	grid-template-columns: 240px 1fr;
 	gap: $space-md;
 
+	box-shadow: 1px solid var(--border-subtle);
+
 	@media (min-width: $breakpoint-md) {
-		flex-direction: row;
 		gap: $space-lg;
 	}
 }
@@ -30,13 +32,15 @@
 .block__title {
 	font-size: $font-md;
 	font-weight: $font-semibold;
+
 	color: var(--text-primary);
 }
 
 .block__description {
-	font-size: $font-sm;
+	font-size: $font-xs;
 	color: var(--text-muted);
 	line-height: 1.5;
+	max-width: 200px;
 }
 
 .block__content {
@@ -85,6 +89,8 @@
 	border-color: var(--color-primary);
 	color: var(--color-primary);
 	background-color: var(--color-primary-subtle);
+
+	box-shadow: 0 0 0 1px var(--color-primary);
 }
 
 // ── Localização ─────────────────────────────────────────────
@@ -215,11 +221,7 @@
 	border-radius: $radius-md;
 	background-color: var(--color-destructive-subtle);
 
-	@media (min-width: $breakpoint-sm) {
-		flex-direction: row;
-		align-items: center;
-		justify-content: space-between;
-	}
+	max-width: 400px;
 }
 
 .dangerZone__info {
@@ -242,6 +244,10 @@
 }
 
 .dangerBtn {
+	max-width: 200px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	align-self: flex-start;
 	display: inline-flex;
 	align-items: center;
 	gap: $space-xxs;
