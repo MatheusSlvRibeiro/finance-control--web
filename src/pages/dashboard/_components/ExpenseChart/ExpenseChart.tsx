@@ -1,4 +1,3 @@
-import { useMediaQuery } from 'react-responsive';
 import {
 	CartesianGrid,
 	Line,
@@ -53,18 +52,8 @@ export function ExpenseChart() {
 
 	const evolutionData: ChartPoint[] = useMemo(() => {
 		const MONTH_LABELS = [
-			'Jan',
-			'Fev',
-			'Mar',
-			'Abr',
-			'Mai',
-			'Jun',
-			'Jul',
-			'Ago',
-			'Set',
-			'Out',
-			'Nov',
-			'Dez',
+			'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun',
+			'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez',
 		] as const;
 
 		const now = new Date();
@@ -100,8 +89,6 @@ export function ExpenseChart() {
 		return points.map(({ key: _key, ...rest }) => rest);
 	}, [transactions]);
 
-	const isMobile = useMediaQuery({ maxWidth: 425 });
-
 	if (loading) {
 		return (
 			<div className={styles.monthExpense}>
@@ -124,6 +111,8 @@ export function ExpenseChart() {
 	return (
 		<div className={styles.monthExpense}>
 			<h3 className={styles.monthExpense__title}>Evolução Financeira</h3>
+
+			{/* Wrapper com altura fixa — padrão recomendado pelo Recharts para ResponsiveContainer */}
 			<div className={styles.monthExpense__chart}>
 				<ResponsiveContainer width="100%" height="100%">
 					<LineChart
@@ -138,17 +127,17 @@ export function ExpenseChart() {
 
 						<XAxis
 							dataKey="month"
-							tick={{ fontSize: isMobile ? 11 : 13, fill: 'var(--text-muted)' }}
+							tick={{ fontSize: 12, fill: 'var(--text-muted)' }}
 							axisLine={false}
 							tickLine={false}
 						/>
 
 						<YAxis
 							tickFormatter={(v) => formatCurrency(Number(v) || 0)}
-							tick={{ fontSize: isMobile ? 10 : 12, fill: 'var(--text-muted)' }}
+							tick={{ fontSize: 11, fill: 'var(--text-muted)' }}
 							axisLine={false}
 							tickLine={false}
-							width={isMobile ? 72 : 88}
+							width={80}
 						/>
 
 						<Tooltip
