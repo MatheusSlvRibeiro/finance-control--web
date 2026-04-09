@@ -34,16 +34,18 @@
 	display: flex;
 	flex-direction: column;
 	gap: 0.8rem;
-	background-color: $white;
+	background-color: var(--bg-surface);
+	border: 1px solid var(--border);
 	padding: $space-md;
 	border-radius: $radius-lg;
-	box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+	box-shadow: var(--shadow-card);
 
 	@media (min-width: $breakpoint-sm) {
 		padding: 0;
 		display: grid;
 		grid-template-columns: repeat(2, 1fr);
 		background-color: transparent;
+		border: none;
 		box-shadow: none;
 	}
 
@@ -111,11 +113,22 @@
 .statsCard__label {
 	flex: 1;
 	text-align: left;
+	color: var(--text-muted);
+
+	@media (min-width: $breakpoint-sm) {
+		color: inherit;
+	}
 }
 
 .statsCard__amount {
 	flex: 1;
 	text-align: right;
+	color: var(--text-primary);
+	font-weight: $font-semibold;
+
+	@media (min-width: $breakpoint-sm) {
+		color: inherit;
+	}
 }
 
 .icon_accounts,

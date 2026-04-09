@@ -2,24 +2,24 @@
 	display: flex;
 	flex-direction: column;
 	gap: 0.8rem;
-	background-color: $white;
+	background-color: var(--bg-surface);
+	border: 1px solid var(--border);
 	padding: $space-md;
 	border-radius: $radius-lg;
-	box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+	box-shadow: var(--shadow-card);
 	z-index: 1;
 	width: 100%;
 
 	@media (min-width: $breakpoint-lg) {
 		max-width: 80%;
 	}
-	
-	@media (min-width: $breakpoint-xl) {		
+
+	@media (min-width: $breakpoint-xl) {
 		max-height: 400px;
 	}
-
 }
 
 .monthExpense__title {
-	color: $dark;
+	color: var(--text-primary);
 	font-weight: $font-medium;
 }

@@ -17,7 +17,7 @@ import { formatCurrency } from '@utils/formatCurrency/formatCurrency';
 
 const CustomDot = (props: any) => {
 	const { cx, cy, stroke } = props;
-	return <circle cx={cx} cy={cy} r={4} fill={stroke} stroke="white" strokeWidth={2} />;
+	return <circle cx={cx} cy={cy} r={4} fill={stroke} stroke="var(--bg-surface)" strokeWidth={2} />;
 };
 
 const CustomTooltip = ({ active, payload, label }: any) => {
@@ -25,14 +25,14 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 	return (
 		<div
 			style={{
-				background: 'var(--color-surface, #1e1e2e)',
-				border: '1px solid var(--color-border, #2e2e3e)',
+				background: 'var(--bg-surface)',
+				border: '1px solid var(--border)',
 				borderRadius: 8,
 				padding: '10px 14px',
 				fontSize: 13,
 			}}
 		>
-			<p style={{ margin: '0 0 6px', fontWeight: 600, color: '#aaa' }}>{label}</p>
+			<p style={{ margin: '0 0 6px', fontWeight: 600, color: 'var(--text-muted)' }}>{label}</p>
 			{payload.map((entry: any) => (
 				<p key={entry.dataKey} style={{ margin: '2px 0', color: entry.stroke }}>
 					{entry.name}: {formatCurrency(entry.value)}
@@ -133,28 +133,28 @@ export function ExpenseChart() {
 					>
 						<CartesianGrid
 							strokeDasharray="3 3"
-							stroke="var(--color-border, #2e2e3e)"
-							vertical={false} 
+							stroke="var(--border)"
+							vertical={false}
 						/>
 
 						<XAxis
 							dataKey="month"
-							tick={{ fontSize: isMobile ? 11 : 13, fill: '#888' }}
+							tick={{ fontSize: isMobile ? 11 : 13, fill: 'var(--text-muted)' }}
 							axisLine={false}
 							tickLine={false}
 						/>
 
 						<YAxis
 							tickFormatter={(v) => formatCurrency(Number(v) || 0)}
-							tick={{ fontSize: isMobile ? 10 : 12, fill: '#888' }}
+							tick={{ fontSize: isMobile ? 10 : 12, fill: 'var(--text-muted)' }}
 							axisLine={false}
 							tickLine={false}
-							width={isMobile ? 72 : 88} 
+							width={isMobile ? 72 : 88}
 						/>
 
 						<Tooltip
 							content={<CustomTooltip />}
-							cursor={{ stroke: '#444', strokeDasharray: '4 4' }}
+							cursor={{ stroke: 'var(--border)', strokeDasharray: '4 4' }}
 						/>
 
 						<Line

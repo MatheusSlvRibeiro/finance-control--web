@@ -14,15 +14,9 @@
 		flex-direction: column;
 		gap: 0.4rem;
 
-		.pageHeader__greeting {
-			font-size: $font-sm;
-			font-weight: $font-regular;
-			color: $gray-muted;
-		}
-
 		.pageHeader__title {
 			font-size: $font-lg;
-			color: $dark;
+			color: var(--text-primary);
 
 			@media (min-width: $breakpoint-lg) {
 				font-size: $font-2xl;
@@ -32,7 +26,7 @@
 		.pageHeader__subtitle {
 			font-size: $font-md;
 			font-weight: $font-regular;
-			color: $gray-muted;
+			color: var(--text-muted);
 		}
 	}
 }
