@@ -1,7 +1,7 @@
 .footer {
 	width: 100%;
-	background-color: $white;
-	box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.1);
+	background-color: #080c0a;
+	border-top: 1px solid rgba(10, 179, 122, 0.12);
 }
 
 .footerContent {
@@ -9,18 +9,33 @@
 	flex-direction: column;
 	align-items: center;
 	padding: $space-lg;
-	gap: $space-md;
+	gap: $space-sm;
 	max-width: $breakpoint-xxl;
-}
 
-.copy {
-	color: $gray-muted;
-}
-
-@media (min-width: $breakpoint-md) {
-	.footerContent {
+	@media (min-width: $breakpoint-md) {
 		flex-direction: row;
 		justify-content: space-between;
 		margin: 0 auto;
 	}
+}
+
+.footerInfo {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: $space-xxs;
+
+	@media (min-width: $breakpoint-md) {
+		align-items: flex-end;
+	}
+}
+
+.copy {
+	font-size: $font-sm;
+	color: rgba(255, 255, 255, 0.45);
+}
+
+.cnpj {
+	font-size: $font-xs;
+	color: rgba(255, 255, 255, 0.25);
 }

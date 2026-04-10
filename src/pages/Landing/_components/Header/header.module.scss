@@ -1,10 +1,18 @@
 .header {
 	width: 100%;
-	background-color: $white;
 	position: fixed;
 	top: 0;
 	z-index: 1000;
-	box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.1);
+	background-color: transparent;
+	transition:
+		background-color 300ms ease,
+		border-color 300ms ease;
+	border-bottom: 1px solid transparent;
+}
+
+.header__scrolled {
+	background-color: #080c0a;
+	border-bottom-color: rgba(10, 179, 122, 0.12);
 }
 
 .headerContent {

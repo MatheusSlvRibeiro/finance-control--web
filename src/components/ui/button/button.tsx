@@ -1,15 +1,24 @@
-import styles from './button.module.scss'
+import styles from './button.module.scss';
 
 type ButtonProps = {
-	children?: React.ReactNode
-	onClick?: () => void
-	variant: string
-	size?: 'sm' | 'md' | 'lg'
-	disabled?: boolean
-	type?: 'submit' | 'reset' | 'button' | undefined
-}
+	children?: React.ReactNode;
+	onClick?: () => void;
+	variant: string;
+	size?: 'sm' | 'md' | 'lg';
+	disabled?: boolean;
+	className?: string;
+	type?: 'submit' | 'reset' | 'button' | undefined;
+};
 
-const Button: React.FC<ButtonProps> = ({ children, onClick, variant, size, disabled, type }) => {
+const Button: React.FC<ButtonProps> = ({
+	children,
+	onClick,
+	variant,
+	size,
+	disabled,
+	type,
+	className,
+}) => {
 	const variantClass =
 		variant === 'login'
 			? styles.login
@@ -19,20 +28,22 @@ const Button: React.FC<ButtonProps> = ({ children, onClick, variant, size, disab
 					? styles.disabled
 					: variant === 'create'
 						? styles.create
-						: styles.default
+						: variant === 'ghost'
+							? styles.ghost
+							: styles.default;
 
-	const sizeClass = size === 'sm' ? styles.sizeSm : size === 'lg' ? styles.sizeLg : styles.sizeMd
+	const sizeClass = size === 'sm' ? styles.sizeSm : size === 'lg' ? styles.sizeLg : styles.sizeMd;
 
 	return (
 		<button
 			type={type}
 			disabled={disabled}
 			onClick={onClick}
-			className={[variantClass, sizeClass].join(' ')}
+			className={[variantClass, sizeClass, className].join(' ')}
 		>
 			{children}
 		</button>
-	)
-}
+	);
+};
 
-export default Button
+export default Button;

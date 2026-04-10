@@ -12,8 +12,8 @@
 }
 
 .card {
-	background-color: $white;
-	border: 1px solid $gray-light;
+	background-color: rgba(255, 255, 255, 0.03);
+	border: 1px solid rgba(255, 255, 255, 0.08);
 	border-radius: $radius-lg;
 	padding: $space-xl;
 	display: flex;
@@ -22,12 +22,32 @@
 	transition: box-shadow 200ms ease, transform 200ms ease;
 
 	&:hover {
-		box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+		box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 		transform: translateY(-2px);
 
 		.card__icon {
-			background-color: color.adjust($primary, $lightness: 38%);
+			background-color: rgba(10, 179, 122, 0.2);
 		}
+	}
+}
+
+.card__featured {
+	border-color: rgba(10, 179, 122, 0.35);
+	background-color: rgba(10, 179, 122, 0.07);
+	box-shadow: 0 0 0 1px rgba(10, 179, 122, 0.12);
+
+	.card__icon {
+		background-color: rgba(10, 179, 122, 0.18);
+	}
+
+	.card__title {
+		color: $primary;
+	}
+
+	&:hover {
+		box-shadow:
+			0 8px 32px rgba(0, 0, 0, 0.3),
+			0 0 0 1px rgba(10, 179, 122, 0.3);
 	}
 }
 
@@ -37,7 +57,7 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	background-color: color.adjust($primary, $lightness: 48%);
+	background-color: rgba(10, 179, 122, 0.12);
 	color: $primary;
 	border-radius: $radius-lg;
 	transition: background-color 200ms ease;
@@ -47,11 +67,11 @@
 .card__title {
 	font-size: $font-md;
 	font-weight: $font-semibold;
-	color: $dark;
+	color: $white;
 }
 
 .card__content {
 	font-size: $font-sm;
-	color: $gray-muted;
+	color: rgba(255, 255, 255, 0.55);
 	line-height: 1.65;
 }

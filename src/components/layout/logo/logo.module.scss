@@ -3,17 +3,18 @@
 	flex-direction: row;
 	align-items: center;
 	gap: $space-xs;
-
-	div {
-		display: flex;
-		color: $white;
-		background-color: $accent;
-		padding: $space-xs;
-		border-radius: $radius-lg;
-	}
+	color: var(--text-primary);
 }
 
 .name {
 	font-weight: $font-bold;
 	color: var(--text-primary);
+}
+
+.logo__white {
+	color: $white;
+
+	.name {
+		color: $white;
+	}
 }
